@@ -22,7 +22,7 @@ MESSAGE(WARNING "Libs: " ${OPENCL_LIBRARIES})
 set(LIBS "${LIBS} -L/opt/AMDAPPSDK-2.9-1/lib/x86_64 -lOpenCL")
 
 # Link lina_test with what we want to test and the GTest and pthread library
-add_executable(lina_test test/tests.cpp test/test_costfunction.cpp)
+add_executable(lina_test test/tests.cpp test/test_costfunction.cpp test/test_filereader.cpp)
 target_link_libraries(lina_test ${GTEST_LIBRARIES} pthread)
 
 set(SOURCE_FILES src/main.cpp src/Timer.cpp src/Timer.h src/RandomFiller.cpp src/RandomFiller.h src/BenchmarkVienna.impl.h src/BenchmarkVienna.h src/CostFunction.impl.h src/CostFunction.h src/FileReader.impl.h src/FileReader.h src/MatrixPrinter.h  src/VectorPrinter.h src/FeatureNormalize.cpp src/FeatureNormalize.h)

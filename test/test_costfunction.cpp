@@ -93,9 +93,20 @@ TEST_F(CostFunctionTest, CostFunctionEvaluates) {
     ASSERT_EQ(1.f, cost(theta_));
 }
 
-TEST_F(CostFunctionTest, CostFunctionDifferentTheta) {
+TEST_F(CostFunctionTest, CostFunctionIdealTheta) {
     CostFunction<float> cost(X_, y_);
     std::vector<float> data = { 0.f, 1.f, 0.f };
     vvec(theta_, data, 3);
     ASSERT_EQ(0.f, cost(theta_));
 }
+
+TEST_F(CostFunctionTest, CostFunctionBadTheta) {
+    CostFunction<float> cost(X_, y_);
+    float cost1 = cost(theta_);
+    std::vector<float> data = { 0.f, 10.f, 0.f };
+    vvec(theta_, data, 3);
+    float cost2 = cost(theta_);
+    ASSERT_LT(cost1, cost2);
+}
+
+
