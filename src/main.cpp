@@ -2,6 +2,8 @@
 #include "FileReader.h"
 #include "CostFunction.h"
 #include "FeatureNormalize.h"
+#include "GradientDescent.h"
+#include "VectorPrinter.h"
 
 #define VIENNACL_WITH_UBLAS 1
 #define VIENNACL_WITH_OPENCL 0
@@ -27,6 +29,15 @@ int main() {
     ScalarType cost = cost_function(theta);
 
     std::cout << "Cost: " << cost << " dot: " << viennacl::linalg::inner_prod(y, y);
+
+    GradientDescent grad(cost_function);
+    theta.clear();
+    grad.optimize(theta);
+
+    theta = grad.getMinimum();
+    VectorPrinter<VectorType> printer(theta);
+    printer.print("Optimal theta:");
+    std::cout << " Cost: " << cost_function(theta) << std::endl;
 
     return 0;
 }

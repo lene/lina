@@ -14,14 +14,14 @@ public:
     const unsigned DEFAULT_NUM_ITER = 10000;
     const Scalar DEFAULT_LEARNING_RATE = 0.1;
 
-    GradientDescent(const CostFunction &function):
+    GradientDescent(const CostFunction<Scalar> &function):
             func_(function),
             alpha_(DEFAULT_LEARNING_RATE),
             num_iter_(DEFAULT_NUM_ITER) {}
 
     bool optimize(const viennacl::vector<Scalar> &initial_guess);
 
-    viennacl::vector<Scalar> getMinimum();
+    viennacl::vector<Scalar> getMinimum() { return theta_; }
 
     void setLearningRate(Scalar alpha) {
         assert(alpha > 0);
@@ -33,7 +33,7 @@ public:
     }
 
 private:
-    const CostFunction &func_;
+    const CostFunction<Scalar> &func_;
     viennacl::vector<Scalar> theta_;
     Scalar alpha_;
     unsigned num_iter_;
