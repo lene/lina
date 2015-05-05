@@ -14,10 +14,13 @@ typedef float ScalarType;
 typedef viennacl::vector<ScalarType> VectorType;
 typedef viennacl::matrix<ScalarType> MatrixType;
 
+using FileReader::read_matrix;
+using FileReader::read_vector;
+
 int main() {
 
-    MatrixType X = FileReader::X<ScalarType>(std::string(""));
-    VectorType y = FileReader::y<ScalarType>(std::string(""));
+    MatrixType X = read_matrix<ScalarType>(std::string(""));
+    VectorType y = read_vector<ScalarType>(std::string(""));
     VectorType theta(X.size1());
 
 //    FeatureNormalize<ScalarType> normalize(X);

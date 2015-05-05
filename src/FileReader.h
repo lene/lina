@@ -11,8 +11,8 @@
 
 namespace FileReader {
 
-    template<typename ScalarType> viennacl::matrix<ScalarType> X(const std::string &filename);
-    template<typename ScalarType> viennacl::vector<ScalarType> y(const std::string &filename);
+    template<typename ScalarType> viennacl::matrix<ScalarType> read_matrix(const std::string &filename);
+    template<typename ScalarType> viennacl::vector<ScalarType> read_vector(const std::string &filename);
 
 };
 

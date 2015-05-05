@@ -8,9 +8,10 @@
 #include <gtest/gtest.h>
 
 class FileReaderTest: public ::testing::Test {
-
+protected:
+    std::string filename_ = "";
 };
 
 TEST_F(FileReaderTest, WorksAtAll) {
-    FileReader::X<float>(std::string(""));
+    FileReader::read_matrix<float>(filename_);
 }

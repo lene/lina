@@ -28,7 +28,7 @@ namespace FileReader {
     }
 
     template<typename ScalarType>
-    viennacl::matrix<ScalarType> X(const std::string &filename) {
+    viennacl::matrix<ScalarType> read_matrix(const std::string &filename) {
         ublas::matrix<ScalarType> X(3, 47);
         fill(X);
 
@@ -39,7 +39,7 @@ namespace FileReader {
     }
 
     template<typename ScalarType>
-    viennacl::vector<ScalarType> y(const std::string &filename) {
+    viennacl::vector<ScalarType> read_vector(const std::string &filename) {
         ublas::vector<ScalarType> y(47);
         fill(y);
 
