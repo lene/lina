@@ -31,5 +31,8 @@ viennacl::scalar<ScalarType> CostFunction<ScalarType>::operator()(const viennacl
 
     viennacl::vector<ScalarType> h_theta = viennacl::linalg::prod(trans(X_), theta);
     viennacl::vector<ScalarType> deviation = h_theta - y_;
+//    VectorPrinter<viennacl::vector<ScalarType>> p3(deviation);
+//    p3.print("deviation");
+
     return viennacl::linalg::inner_prod(deviation, deviation);
 }
