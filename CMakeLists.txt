@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
-project(tavsiye)
+project(lina)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -15,7 +15,7 @@ MESSAGE(WARNING "Libs: " ${OPENCL_LIBRARIES})
 # fuck this. none of my attempts to find the OpenCl libs work.
 set(LIBS "${LIBS} -L/opt/AMDAPPSDK-2.9-1/lib/x86_64 -lOpenCL")
 
-set(SOURCE_FILES main.cpp)
-add_executable(tavsiye ${SOURCE_FILES} Timer.cpp Timer.h RandomFiller.cpp RandomFiller.h BenchmarkVienna.impl.h BenchmarkVienna.h CostFunction.impl.h CostFunction.h FileReader.impl.h FileReader.h MatrixPrinter.h  VectorPrinter.h FeatureNormalize.cpp FeatureNormalize.h)
+set(SOURCE_FILES src/main.cpp)
+add_executable(lina ${SOURCE_FILES} src/Timer.cpp src/Timer.h src/RandomFiller.cpp src/RandomFiller.h src/BenchmarkVienna.impl.h src/BenchmarkVienna.h src/CostFunction.impl.h src/CostFunction.h src/FileReader.impl.h src/FileReader.h src/MatrixPrinter.h  src/VectorPrinter.h src/FeatureNormalize.cpp src/FeatureNormalize.h)
 # also, fuck the attempt above. in fact, fuck CMake.
-target_link_libraries (tavsiye -L/opt/AMDAPPSDK-2.9-1/lib/x86_64 -lOpenCL)
+target_link_libraries (lina -L/opt/AMDAPPSDK-2.9-1/lib/x86_64 -lOpenCL)
