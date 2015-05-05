@@ -8,11 +8,19 @@
 #include "viennacl/linalg/prod.hpp"
 #include "main.cpp"
 
+/**
+ *  \param X features
+ *  \param y training examples (y_i = f(X_i))
+ */
 template <typename ScalarType>
 CostFunction<ScalarType>::CostFunction(
         const viennacl::matrix<ScalarType> &X,
         const viennacl::vector<ScalarType> &y): X_(X), y_(y) { }
 
+/**
+ *  hypothesis \f$h_\theta(X)\f$
+ *  \param theta
+ */
 template <typename ScalarType>
 viennacl::vector<ScalarType>
 CostFunction<ScalarType>::h_theta(const viennacl::vector<ScalarType> &theta) const {
@@ -20,6 +28,10 @@ CostFunction<ScalarType>::h_theta(const viennacl::vector<ScalarType> &theta) con
     return viennacl::linalg::prod(trans(X_), theta);
 }
 
+/**
+ *  How far hypothesis \f$h_\theta(X)\f$ misses training examples \f$y\f$
+ *  \param theta
+ */
 template <typename ScalarType>
 viennacl::vector<ScalarType>
 CostFunction<ScalarType>::deviation(const viennacl::vector<ScalarType> &theta) const {
@@ -27,12 +39,8 @@ CostFunction<ScalarType>::deviation(const viennacl::vector<ScalarType> &theta) c
 }
 
 /**
-function J = computeCostMulti(X, y, theta)
-  m = length(y); % number of training examples
-  h_theta = X*theta;
-  summand_linear = h_theta-y;
-  summand_squared = summand_linear .^ 2;
-  J = sum(summand_squared)/2/m;
+ *  cost function for given \f$\theta\f$
+ *  \param theta
  */
 template <typename ScalarType>
 viennacl::scalar<ScalarType>
@@ -41,6 +49,11 @@ CostFunction<ScalarType>::operator()(const viennacl::vector<ScalarType> &theta) 
     return viennacl::linalg::inner_prod(d, d) / ScalarType(2*y_.size());
 }
 
+/**
+ *  gradient of cost function for given \f$\theta\f$
+ *  \param theta
+ *  \todo the arguments to prod() may be wrong; in Matlab it is actually (X*theta-y)' * X
+ */
 template <typename ScalarType>
 viennacl::vector<ScalarType>
 CostFunction<ScalarType>::gradient(const viennacl::vector<ScalarType> &theta) const {

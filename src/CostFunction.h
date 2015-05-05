@@ -12,10 +12,7 @@ template<typename ScalarType>
 class CostFunction {
 
 public:
-    /**
-     *  X: features
-     *  y: training examples (y_i = f(X_i))
-     */
+
     CostFunction(
             const viennacl::matrix<ScalarType> &X,
             const viennacl::vector<ScalarType> &y
