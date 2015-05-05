@@ -21,7 +21,12 @@ public:
             const viennacl::vector<ScalarType> &y
     );
 
-    viennacl::scalar<ScalarType> operator()(const viennacl::vector<ScalarType> &theta);
+    viennacl::vector<ScalarType> h_theta(const viennacl::vector<ScalarType> &theta) const;
+    viennacl::vector<ScalarType> deviation(const viennacl::vector<ScalarType> &theta) const;
+    viennacl::scalar<ScalarType> operator()(const viennacl::vector<ScalarType> &theta) const;
+    viennacl::vector<ScalarType> gradient(const viennacl::vector<ScalarType> &theta) const;
+
+    const viennacl::matrix<ScalarType> &X() { return X_; }
 
 private:
     const viennacl::matrix<ScalarType> &X_;

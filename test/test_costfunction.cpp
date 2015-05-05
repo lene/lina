@@ -56,3 +56,7 @@ TEST_F(CostFunctionTest, ElementsGetSetUp) {
 
     ASSERT_EQ(viennacl::linalg::inner_prod(theta_, theta_), 0.f);
 }
+
+TEST_F(CostFunctionTest, CostFunctionInitializes) {
+    CostFunction<float> cost(X_, y_);
+}
