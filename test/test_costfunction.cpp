@@ -15,18 +15,18 @@ class CostFunctionTest: public ::testing::Test {
 protected:
     CostFunctionTest():
             X_(viennacl::matrix<float>(3, 2)),
-            y_(viennacl::vector<float>(3)),
+            y_(viennacl::vector<float>(2)),
             theta_(viennacl::vector<float>(3)) { }
 
     virtual void SetUp() {
         ublas::matrix<float> X(3, 2);
-        ublas::vector<float> y(3);
+        ublas::vector<float> y(2);
         ublas::vector<float> theta(X.size1());
         X(0,0) = X(1,0) = X(2,0) = 1.f;
         X(0,1) = 1.f;
         X(1,1) = X(2,1) = 0.f;
         y(0) = 1.f;
-        y(1) = y(2) = 0.f;
+        y(1) = 0.f;
         theta(0) = theta(1) = theta(2) = 0.f;
 
         viennacl::copy(X, X_);
@@ -55,4 +55,18 @@ TEST_F(CostFunctionTest, ElementsGetSetUp) {
     ASSERT_EQ(viennacl::linalg::inner_prod(y_, y_), 1.f);
 
     ASSERT_EQ(viennacl::linalg::inner_prod(theta_, theta_), 0.f);
+}
+
+TEST_F(CostFunctionTest, CostFunctionInitializes) {
+    CostFunction<float> cost(X_, y_);
+}
+
+TEST_F(CostFunctionTest, CostFunctionRuns) {
+    CostFunction<float> cost(X_, y_);
+    cost(theta_);
+}
+
+TEST_F(CostFunctionTest, CostFunctionEvaluates) {
+    CostFunction<float> cost(X_, y_);
+    ASSERT_EQ(cost(theta_), 1.f);
 }
