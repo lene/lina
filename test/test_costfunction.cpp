@@ -66,17 +66,17 @@ TEST_F(CostFunctionTest, WorksAtAll) {
 }
 
 TEST_F(CostFunctionTest, ElementsGetSetUp) {
-    ASSERT_EQ(X_(0,0), 1.f);
-    ASSERT_EQ(X_(1,0), 1.f);
-    ASSERT_EQ(X_(2,0), 1.f);
-    ASSERT_EQ(X_(0,1), 1.f);
-    ASSERT_EQ(X_(1,1), 0.f);
-    ASSERT_EQ(X_(2,1), 0.f);
+    ASSERT_EQ(1.f, X_(0,0));
+    ASSERT_EQ(1.f, X_(1,0));
+    ASSERT_EQ(1.f, X_(2,0));
+    ASSERT_EQ(1.f, X_(0,1));
+    ASSERT_EQ(0.f, X_(1,1));
+    ASSERT_EQ(0.f, X_(2,1));
 
-    ASSERT_EQ(y_(0), 1.f);
-    ASSERT_EQ(viennacl::linalg::inner_prod(y_, y_), 1.f);
+    ASSERT_EQ(1.f, y_(0));
+    ASSERT_EQ(1.f, viennacl::linalg::inner_prod(y_, y_));
 
-    ASSERT_EQ(viennacl::linalg::inner_prod(theta_, theta_), 0.f);
+    ASSERT_EQ(0.f, viennacl::linalg::inner_prod(theta_, theta_));
 }
 
 TEST_F(CostFunctionTest, CostFunctionInitializes) {
@@ -90,5 +90,12 @@ TEST_F(CostFunctionTest, CostFunctionRuns) {
 
 TEST_F(CostFunctionTest, CostFunctionEvaluates) {
     CostFunction<float> cost(X_, y_);
-    ASSERT_EQ(cost(theta_), 1.f);
+    ASSERT_EQ(1.f, cost(theta_));
+}
+
+TEST_F(CostFunctionTest, CostFunctionDifferentTheta) {
+    CostFunction<float> cost(X_, y_);
+    std::vector<float> data = { 0.f, 1.f, 0.f };
+    vvec(theta_, data, 3);
+    ASSERT_EQ(0.f, cost(theta_));
 }
