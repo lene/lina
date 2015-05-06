@@ -21,21 +21,29 @@ typedef viennacl::matrix<ScalarType> MatrixType;
 int main() {
 
     std::stringstream mstream(FileReader::testmatrix);
-    MatrixType X = FileReader::add_bias_column(FileReader::read_matrix<ScalarType>(mstream));
+    MatrixType Xorig = FileReader::read_matrix<ScalarType>(mstream);
     std::stringstream vstream(FileReader::testvector);
     VectorType y = FileReader::read_vector<ScalarType>(vstream);
-    VectorType theta(X.size2());
-    theta.clear();              // theta = (0,0,...,0)
-MatrixPrinter<MatrixType>p(X);
+
+    MatrixPrinter<MatrixType>p(Xorig);
     p.print("X");
 
 VectorPrinter<VectorType> pv(y);
     pv.print("y");
 
-    FeatureNormalize<ScalarType> normalize(X);
-//    auto throwaway = normalize.normalize();
+    FeatureNormalize<ScalarType> normalize(Xorig);
+    auto Xnorm = normalize.normalize();
+    viennacl::matrix<ScalarType> vXnorm(Xnorm.size1(), Xnorm.size2());
+    copy(Xnorm, vXnorm);
+    auto Xbias = FileReader::add_bias_column(vXnorm);
 
-    CostFunction<ScalarType> cost_function(X, y);
+    MatrixPrinter<MatrixType>pb(Xbias);
+    pb.print("Xbias");
+
+    VectorType theta(Xbias.size2());
+    theta.clear();              // theta = (0,0,...,0)
+
+    CostFunction<ScalarType> cost_function(Xbias, y);
     ScalarType cost = cost_function(theta);
 
     std::cout << "Cost: " << cost << " dot: " << viennacl::linalg::inner_prod(y, y) << std::endl;
