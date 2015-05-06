@@ -14,26 +14,26 @@
  #define NDEBUG
 #endif
 
-typedef float ScalarType;
-typedef viennacl::vector<ScalarType> VectorType;
-typedef viennacl::matrix<ScalarType> MatrixType;
+typedef double Scalar;
+typedef viennacl::vector<Scalar> VectorType;
+typedef viennacl::matrix<Scalar> MatrixType;
 
 int main() {
 
     std::stringstream mstream(FileReader::testmatrix);
-    MatrixType Xorig = FileReader::read_matrix<ScalarType>(mstream);
+    MatrixType Xorig = FileReader::read_matrix<Scalar>(mstream);
     std::stringstream vstream(FileReader::testvector);
-    VectorType y = FileReader::read_vector<ScalarType>(vstream);
+    VectorType y = FileReader::read_vector<Scalar>(vstream);
 
     MatrixPrinter<MatrixType>p(Xorig);
     p.print("X");
 
-VectorPrinter<VectorType> pv(y);
+    VectorPrinter<VectorType> pv(y);
     pv.print("y");
 
-    FeatureNormalize<ScalarType> normalize(Xorig);
+    FeatureNormalize<Scalar> normalize(Xorig);
     auto Xnorm = normalize.normalize();
-    viennacl::matrix<ScalarType> vXnorm(Xnorm.size1(), Xnorm.size2());
+    viennacl::matrix<Scalar> vXnorm(Xnorm.size1(), Xnorm.size2());
     copy(Xnorm, vXnorm);
     auto Xbias = FileReader::add_bias_column(vXnorm);
 
@@ -43,13 +43,13 @@ VectorPrinter<VectorType> pv(y);
     VectorType theta(Xbias.size2());
     theta.clear();              // theta = (0,0,...,0)
 
-    CostFunction<ScalarType> cost_function(Xbias, y);
-    ScalarType cost = cost_function(theta);
+    CostFunction<Scalar> cost_function(Xbias, y);
+    Scalar cost = cost_function(theta);
 
     std::cout << "Cost: " << cost << " dot: " << viennacl::linalg::inner_prod(y, y) << std::endl;
 
-    GradientDescent<ScalarType> grad(cost_function);
-    grad.setLearningRate(0.000001);
+    GradientDescent<Scalar> grad(cost_function);
+    grad.setLearningRate(1);
     grad.optimize(theta);
 
     theta = grad.getMinimum();
