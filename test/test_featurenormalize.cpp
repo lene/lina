@@ -21,14 +21,12 @@ TEST_F(FeatureNormalizeTest, RunsAtAll) {
     FeatureNormalize<float> F(M);
 }
 
-TEST_F(FeatureNormalizeTest, NormalizedMatrix) {
+TEST_F(FeatureNormalizeTest, NormalizedMatrixSize) {
     viennacl::matrix<float> M = FileReader::read_matrix<float>(mat_stream_);
-    MatrixPrinter<viennacl::matrix<float>> po(M);
-    po.print("original");
     FeatureNormalize<float> F(M);
     ublas::matrix<float> normalized = F.normalize();
-    MatrixPrinter<ublas::matrix<float>> pn(normalized);
-    pn.print("normalized");
+    ASSERT_EQ(M.size1(), normalized.size1());
+    ASSERT_EQ(M.size2(), normalized.size2());
 }
 
 TEST_F(FeatureNormalizeTest, NormalizedColumsAverageZero) {
@@ -39,4 +37,34 @@ TEST_F(FeatureNormalizeTest, NormalizedColumsAverageZero) {
         ublas::vector<float> column = ublas::column(normalized, i);
         ASSERT_FLOAT_EQ(0., FeatureNormalize<float>::sum(column));
     }
+}
+
+TEST_F(FeatureNormalizeTest, MeanValues) {
+    viennacl::matrix<float> M = FileReader::read_matrix<float>(mat_stream_);
+    FeatureNormalize<float> F(M);
+    ublas::vector<float> means = F.mu();
+    ASSERT_EQ(2, means.size());
+    ASSERT_FLOAT_EQ(2*means(0), means(1));
+}
+
+TEST_F(FeatureNormalizeTest, SigmaValues) {
+    viennacl::matrix<float> M = FileReader::read_matrix<float>(mat_stream_);
+    FeatureNormalize<float> F(M);
+    ublas::vector<float> sigma = F.sigma();
+    ASSERT_EQ(2, sigma.size());
+    ASSERT_FLOAT_EQ(2*sigma(0), sigma(1));
+}
+
+TEST_F(FeatureNormalizeTest, Restore) {
+    viennacl::matrix<float> original = FileReader::read_matrix<float>(mat_stream_);
+    FeatureNormalize<float> F(original);
+    ublas::matrix<float> normalized = F.normalize();
+    viennacl::matrix<float> normalized_v(normalized.size1(), normalized.size2());
+    copy(normalized, normalized_v);
+    viennacl::matrix<float> restored = F.restore(normalized_v);
+    ASSERT_EQ(original.size1(), restored.size1());
+    ASSERT_EQ(original.size2(), restored.size2());
+    for (unsigned i = 0; i < original.size1(); ++i)
+        for (unsigned j = 0; j < original.size2(); ++j)
+            ASSERT_NEAR(original(i, j), restored(i, j), 1e-6f);
 }

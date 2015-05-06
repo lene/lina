@@ -22,16 +22,36 @@ public:
     FeatureNormalize(const viennacl::matrix<ScalarType> &X):
             blas_matrix_(X.size1(), X.size2()),
             normalized_matrix_(X.size1(), X.size2()),
-            mu_(X.size1()), sigma_(X.size2()) {
+            mu_(X.size2()), sigma_(X.size2()) {
         viennacl::copy(X, blas_matrix_);
         runNormalization();
     }
 
-    const ublas::matrix<ScalarType> &normalize() {
+    const ublas::matrix<ScalarType> &normalize() const {
         return normalized_matrix_;
     }
 
-    viennacl::matrix<ScalarType> restore(const viennacl::matrix<ScalarType> &matrix);
+    const ublas::vector<ScalarType> &mu() const {
+        return mu_;
+    }
+
+    const ublas::vector<ScalarType> &sigma() const {
+        return sigma_;
+    }
+
+    viennacl::matrix<ScalarType> restore(const viennacl::matrix<ScalarType> &matrix) {
+        assert(matrix.size1() == normalized_matrix_.size1());
+        assert(matrix.size2() == normalized_matrix_.size2());
+        viennacl::matrix<ScalarType> restored(normalized_matrix_.size1(), normalized_matrix_.size2());
+
+        for (unsigned long i = 0; i < normalized_matrix_.size2(); ++i) {
+            for (unsigned j = 0; j < normalized_matrix_.size1(); ++j) {
+                restored(j, i) = matrix(j, i)*sigma_(i)+mu_(i);
+            }
+        }
+
+        return restored;
+    }
 
     static ScalarType sum(const ublas::vector<ScalarType> &v) {
         ublas::vector<ScalarType> ones = ublas::scalar_vector<ScalarType>(v.size(), 1.0);
