@@ -5,6 +5,8 @@
 
 #include "FileReader.h"
 
+#include <sstream>
+
 #include <gtest/gtest.h>
 
 class FileReaderTest: public ::testing::Test {
@@ -14,4 +16,9 @@ protected:
 
 TEST_F(FileReaderTest, WorksAtAll) {
     FileReader::read_matrix<float>(filename_);
+}
+
+TEST_F(FileReaderTest, WorksAtAllForStream) {
+    std::stringstream stream("1 1");
+    FileReader::read_matrix<float>(stream);
 }
