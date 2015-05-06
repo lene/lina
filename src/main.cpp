@@ -32,7 +32,7 @@ MatrixPrinter<MatrixType>p(X);
 VectorPrinter<VectorType> pv(y);
     pv.print("y");
 
-//    FeatureNormalize<ScalarType> normalize(X);
+    FeatureNormalize<ScalarType> normalize(X);
 //    auto throwaway = normalize.normalize();
 
     CostFunction<ScalarType> cost_function(X, y);
@@ -41,15 +41,16 @@ VectorPrinter<VectorType> pv(y);
     std::cout << "Cost: " << cost << " dot: " << viennacl::linalg::inner_prod(y, y) << std::endl;
 
     GradientDescent<ScalarType> grad(cost_function);
+    grad.setLearningRate(0.000001);
     grad.optimize(theta);
 
     theta = grad.getMinimum();
     VectorPrinter<VectorType> printer(theta);
     printer.print("Optimal theta:");
     std::cout << "Cost: " << cost_function(theta) << std::endl;
-    std::cout << grad.getHistory().size() << std::endl;
+    std::cout << grad.getHistory().size() << " steps: ";
     for (auto val: grad.getHistory()) std::cout << val << " ";
-
+    std::cout << std::endl;
     return 0;
 
 }

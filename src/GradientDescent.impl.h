@@ -9,6 +9,7 @@ bool GradientDescent<Scalar>::optimize(const viennacl::vector<Scalar> &initial_g
     for (iter_ = 0; iter_ < num_iter_; ++iter_) {
         updateHistory();
         if (converged()) return true;
+        if (history_.back() > history_[history_.size()-2]) alpha_ /= 2;
         viennacl::vector<Scalar> temp = func_.gradient(theta_);
         theta_ -= alpha_*temp;
     }
