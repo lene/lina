@@ -6,8 +6,21 @@
 template <typename Scalar>
 bool GradientDescent<Scalar>::optimize(const viennacl::vector<Scalar> &initial_guess) {
     theta_ = initial_guess;
-    for (unsigned iter = 0; iter < num_iter_; ++iter) {
+    for (iter_ = 0; iter_ < num_iter_; ++iter_) {
+        updateHistory();
+        if (converged()) return true;
         viennacl::vector<Scalar> temp = func_.gradient(theta_);
         theta_ -= alpha_*temp;
     }
+    return false;
+}
+
+template <typename Scalar>
+void GradientDescent<Scalar>::updateHistory() {
+    history_.push_back(func_(theta_));
+}
+
+template <typename Scalar>
+bool GradientDescent<Scalar>::converged() {
+    return history_.back() == history_[history_.size()-2];
 }
