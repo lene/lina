@@ -41,16 +41,15 @@ VectorPrinter<VectorType> pv(y);
     std::cout << "Cost: " << cost << " dot: " << viennacl::linalg::inner_prod(y, y) << std::endl;
 
     GradientDescent<ScalarType> grad(cost_function);
-    return 0;
     grad.optimize(theta);
 
     theta = grad.getMinimum();
     VectorPrinter<VectorType> printer(theta);
     printer.print("Optimal theta:");
     std::cout << "Cost: " << cost_function(theta) << std::endl;
-    std::copy(
-            grad.getHistory().begin(), grad.getHistory().end(),
-            std::ostream_iterator<ScalarType >(std::cout, " ")
-    );
+    std::cout << grad.getHistory().size() << std::endl;
+    for (auto val: grad.getHistory()) std::cout << val << " ";
+
+    return 0;
 
 }

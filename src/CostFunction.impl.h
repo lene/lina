@@ -63,5 +63,5 @@ CostFunction<Scalar>::operator()(const viennacl::vector<Scalar> &theta) const {
 template <typename Scalar>
 viennacl::vector<Scalar>
 CostFunction<Scalar>::gradient(const viennacl::vector<Scalar> &theta) const {
-    return viennacl::linalg::prod(X_, deviation(theta)) / Scalar(y_.size());
+    return viennacl::linalg::prod(trans(X_), deviation(theta)) / Scalar(y_.size());
 }
