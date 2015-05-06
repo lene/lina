@@ -3,6 +3,7 @@
 //
 
 #include "FileReader.h"
+#include "MatrixPrinter.h"
 
 
 #include <boost/numeric/ublas/matrix.hpp>
@@ -50,5 +51,20 @@ namespace FileReader {
         viennacl::copy(v, ret);
 
         return ret;
+    }
+
+    template<typename Scalar> viennacl::matrix<Scalar> add_bias_column(const viennacl::matrix<Scalar> &M) {
+        viennacl::matrix<Scalar> augmented(M.size1(), M.size2()+1);
+        for(int i = M.size1(); i >= 0; --i) {
+            for (int j = M.size2(); j > 0; --j) {
+                augmented(i, j) = M(i, j-1);
+            }
+            augmented(i,0) = 1;
+        }
+
+//        MatrixPrinter<viennacl::matrix<Scalar>> p(augmented);
+//        p.print();
+
+        return augmented;
     }
 }

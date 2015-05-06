@@ -3,9 +3,12 @@
 //
 
 #include "CostFunction.h"
+#include "MatrixPrinter.h"
+#include "VectorPrinter.h"
 
 #include "viennacl/linalg/inner_prod.hpp"
 #include "viennacl/linalg/prod.hpp"
+#include "viennacl/linalg/matrix_operations.hpp"
 
 /**
  *  \param X features
@@ -15,18 +18,20 @@ template <typename Scalar>
 CostFunction<Scalar>::CostFunction(
         const viennacl::matrix<Scalar> &X,
         const viennacl::vector<Scalar> &y): X_(X), y_(y) {
-    assert(y_.size() == X_.size2());
+    assert(y_.size() == X_.size1());
 }
 
 /**
  *  hypothesis \f$h_\theta(X)\f$
- *  \param theta
+ *  \param theta    MatrixPrinter<viennacl::matrix<Scalar>> p(X_);
+    p.print("X");
+
  */
 template <typename Scalar>
 viennacl::vector<Scalar>
 CostFunction<Scalar>::h_theta(const viennacl::vector<Scalar> &theta) const {
-    assert(theta.size() == X_.size1());
-    return viennacl::linalg::prod(trans(X_), theta);
+    assert(theta.size() == X_.size2());
+    return viennacl::linalg::prod(X_, theta);
 }
 
 /**

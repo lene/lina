@@ -44,16 +44,16 @@ public:
 protected:
     CostFunctionTest():
             X_(viennacl::matrix<float>(3, 2)),
-            y_(viennacl::vector<float>(2)),
-            theta_(viennacl::vector<float>(3)) { }
+            y_(viennacl::vector<float>(3)),
+            theta_(viennacl::vector<float>(2)) { }
 
     virtual void SetUp() {
         std::vector<float> data = { 1.f, 1.f,  1.f, 0.f,  1.f, 0.f };
         vmat<float>(X_, data, 3, 2);
-        data = { 1.f, 0.f };
-        vvec<float>(y_, data, 2);
+        data = { 1.f, 0.f, 0.f };
+        vvec<float>(y_, data, 3);
         data = { 0.f, 0.f, 0.f };
-        vvec<float>(theta_, data, 3);
+        vvec<float>(theta_, data, 2);
     }
 
     viennacl::matrix<float> X_;
@@ -90,7 +90,7 @@ TEST_F(CostFunctionTest, CostFunctionRuns) {
 
 TEST_F(CostFunctionTest, CostFunctionEvaluates) {
     CostFunction<float> cost(X_, y_);
-    ASSERT_FLOAT_EQ(0.25f, cost(theta_));
+    ASSERT_FLOAT_EQ(1.f/6.f, cost(theta_));
 }
 
 TEST_F(CostFunctionTest, CostFunctionIdealTheta) {

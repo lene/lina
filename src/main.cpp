@@ -21,11 +21,16 @@ typedef viennacl::matrix<ScalarType> MatrixType;
 int main() {
 
     std::stringstream mstream(FileReader::testmatrix);
-    MatrixType X = FileReader::read_matrix<ScalarType>(mstream);
+    MatrixType X = FileReader::add_bias_column(FileReader::read_matrix<ScalarType>(mstream));
     std::stringstream vstream(FileReader::testvector);
     VectorType y = FileReader::read_vector<ScalarType>(vstream);
-    VectorType theta(X.size1());
+    VectorType theta(X.size2());
     theta.clear();              // theta = (0,0,...,0)
+MatrixPrinter<MatrixType>p(X);
+    p.print("X");
+
+VectorPrinter<VectorType> pv(y);
+    pv.print("y");
 
 //    FeatureNormalize<ScalarType> normalize(X);
 //    auto throwaway = normalize.normalize();
@@ -36,6 +41,7 @@ int main() {
     std::cout << "Cost: " << cost << " dot: " << viennacl::linalg::inner_prod(y, y) << std::endl;
 
     GradientDescent<ScalarType> grad(cost_function);
+    return 0;
     grad.optimize(theta);
 
     theta = grad.getMinimum();
@@ -47,5 +53,4 @@ int main() {
             std::ostream_iterator<ScalarType >(std::cout, " ")
     );
 
-    return 0;
 }
