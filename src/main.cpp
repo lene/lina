@@ -5,6 +5,8 @@
 #include "GradientDescent.h"
 #include "VectorPrinter.h"
 
+#include <sstream>
+
 #define VIENNACL_WITH_UBLAS 1
 #define VIENNACL_WITH_OPENCL 0
 
@@ -18,8 +20,10 @@ typedef viennacl::matrix<ScalarType> MatrixType;
 
 int main() {
 
-    MatrixType X = FileReader::read_matrix<ScalarType>(std::string(""));
-    VectorType y = FileReader::read_vector<ScalarType>(std::string(""));
+    std::stringstream mstream(FileReader::testmatrix);
+    MatrixType X = FileReader::read_matrix<ScalarType>(mstream);
+    std::stringstream vstream(FileReader::testvector);
+    VectorType y = FileReader::read_vector<ScalarType>(vstream);
     VectorType theta(X.size1());
     theta.clear();              // theta = (0,0,...,0)
 
