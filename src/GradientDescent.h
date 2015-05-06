@@ -40,7 +40,8 @@ public:
 private:
 
     void updateHistory();
-    bool converged();
+    bool hasConverged();
+    void adjustLearningRate();
 
     const CostFunction<Scalar> &func_;
     viennacl::vector<Scalar> theta_;
@@ -48,6 +49,7 @@ private:
     unsigned max_iter_;
     unsigned iter_;
     std::vector<Scalar> history_;
+
 };
 
 #include "GradientDescent.impl.h"
