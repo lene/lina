@@ -38,6 +38,7 @@ int main() {
     VectorPrinter<VectorType> printer(theta);
     printer.print("Optimal theta:");
     std::cout << " Cost: " << cost_function(theta) << std::endl;
+    std::copy(grad.getHistory().begin(), grad.getHistory().end(), std::ostream_iterator<ScalarType >(std::cout, " "));
 
     return 0;
 }

@@ -35,6 +35,8 @@ public:
 
     unsigned getIterations() const { return iter_; }
 
+    std::vector<Scalar> getHistory() const { return history_; }
+
 private:
 
     void updateHistory();
