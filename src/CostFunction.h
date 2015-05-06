@@ -8,26 +8,26 @@
 
 #include <viennacl/vector.hpp>
 
-template<typename ScalarType>
+template<typename Scalar>
 class CostFunction {
 
 public:
 
     CostFunction(
-            const viennacl::matrix<ScalarType> &X,
-            const viennacl::vector<ScalarType> &y
+            const viennacl::matrix<Scalar> &X,
+            const viennacl::vector<Scalar> &y
     );
 
-    viennacl::vector<ScalarType> h_theta(const viennacl::vector<ScalarType> &theta) const;
-    viennacl::vector<ScalarType> deviation(const viennacl::vector<ScalarType> &theta) const;
-    viennacl::scalar<ScalarType> operator()(const viennacl::vector<ScalarType> &theta) const;
-    viennacl::vector<ScalarType> gradient(const viennacl::vector<ScalarType> &theta) const;
+    viennacl::vector<Scalar> h_theta(const viennacl::vector<Scalar> &theta) const;
+    viennacl::vector<Scalar> deviation(const viennacl::vector<Scalar> &theta) const;
+    viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const;
+    viennacl::vector<Scalar> gradient(const viennacl::vector<Scalar> &theta) const;
 
-    const viennacl::matrix<ScalarType> &X() { return X_; }
+    const viennacl::matrix<Scalar> &X() { return X_; }
 
 private:
-    const viennacl::matrix<ScalarType> &X_;
-    const viennacl::vector<ScalarType> &y_;
+    const viennacl::matrix<Scalar> &X_;
+    const viennacl::vector<Scalar> &y_;
 };
 
 #include "CostFunction.impl.h"

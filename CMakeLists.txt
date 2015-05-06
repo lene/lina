@@ -25,8 +25,14 @@ set(LIBS "${LIBS} -L/opt/AMDAPPSDK-2.9-1/lib/x86_64 -lOpenCL")
 add_executable(lina_test test/tests.cpp test/test_costfunction.cpp test/test_filereader.cpp)
 target_link_libraries(lina_test ${GTEST_LIBRARIES} pthread)
 
-set(SOURCE_FILES src/main.cpp src/Timer.cpp src/Timer.h src/RandomFiller.cpp src/RandomFiller.h src/BenchmarkVienna.impl.h src/BenchmarkVienna.h src/CostFunction.impl.h src/CostFunction.h src/FileReader.impl.h src/FileReader.h src/MatrixPrinter.h  src/VectorPrinter.h src/FeatureNormalize.cpp src/FeatureNormalize.h)
-add_executable(lina ${SOURCE_FILES} src/GradientDescent.impl.h src/GradientDescent.h)
+set(
+    SOURCE_FILES
+    src/main.cpp src/Timer.cpp src/Timer.h src/RandomFiller.cpp src/RandomFiller.h
+    src/BenchmarkVienna.impl.h src/BenchmarkVienna.h src/CostFunction.impl.h src/CostFunction.h
+    src/FileReader.impl.h src/FileReader.h src/MatrixPrinter.h  src/VectorPrinter.h
+    src/FeatureNormalize.cpp src/FeatureNormalize.h src/GradientDescent.impl.h src/GradientDescent.h
+)
+add_executable(lina ${SOURCE_FILES} )
 # also, fuck the attempt above. in fact, fuck CMake.
 target_link_libraries (lina -L/opt/AMDAPPSDK-2.9-1/lib/x86_64 -lOpenCL)
 

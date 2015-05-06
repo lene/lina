@@ -16,13 +16,10 @@ typedef float ScalarType;
 typedef viennacl::vector<ScalarType> VectorType;
 typedef viennacl::matrix<ScalarType> MatrixType;
 
-using FileReader::read_matrix;
-using FileReader::read_vector;
-
 int main() {
 
-    MatrixType X = read_matrix<ScalarType>(std::string(""));
-    VectorType y = read_vector<ScalarType>(std::string(""));
+    MatrixType X = FileReader::read_matrix<ScalarType>(std::string(""));
+    VectorType y = FileReader::read_vector<ScalarType>(std::string(""));
     VectorType theta(X.size1());
     theta.clear();              // theta = (0,0,...,0)
 
@@ -32,7 +29,7 @@ int main() {
     CostFunction<ScalarType> cost_function(X, y);
     ScalarType cost = cost_function(theta);
 
-    std::cout << "Cost: " << cost << " dot: " << viennacl::linalg::inner_prod(y, y);
+    std::cout << "Cost: " << cost << " dot: " << viennacl::linalg::inner_prod(y, y) << std::endl;
 
     GradientDescent<ScalarType> grad(cost_function);
     grad.optimize(theta);
@@ -40,8 +37,11 @@ int main() {
     theta = grad.getMinimum();
     VectorPrinter<VectorType> printer(theta);
     printer.print("Optimal theta:");
-    std::cout << " Cost: " << cost_function(theta) << std::endl;
-    std::copy(grad.getHistory().begin(), grad.getHistory().end(), std::ostream_iterator<ScalarType >(std::cout, " "));
+    std::cout << "Cost: " << cost_function(theta) << std::endl;
+    std::copy(
+            grad.getHistory().begin(), grad.getHistory().end(),
+            std::ostream_iterator<ScalarType >(std::cout, " ")
+    );
 
     return 0;
 }
