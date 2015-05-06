@@ -90,7 +90,7 @@ TEST_F(CostFunctionTest, CostFunctionRuns) {
 
 TEST_F(CostFunctionTest, CostFunctionEvaluates) {
     CostFunction<float> cost(X_, y_);
-    ASSERT_EQ(1.f, cost(theta_));
+    ASSERT_EQ(0.25f, cost(theta_));
 }
 
 TEST_F(CostFunctionTest, CostFunctionIdealTheta) {
@@ -108,5 +108,3 @@ TEST_F(CostFunctionTest, CostFunctionBadTheta) {
     float cost2 = cost(theta_);
     ASSERT_LT(cost1, cost2);
 }
-
-

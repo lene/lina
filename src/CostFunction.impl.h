@@ -9,6 +9,10 @@
 #include "MatrixPrinter.h"
 #include "VectorPrinter.h"
 
+/**
+ *  \param X features
+ *  \param y training examples (y_i = f(X_i))
+ */
 template <typename ScalarType>
 CostFunction<ScalarType>::CostFunction(
         const viennacl::matrix<ScalarType> &X,
@@ -16,23 +20,45 @@ CostFunction<ScalarType>::CostFunction(
     assert(y_.size() == X_.size2());
 }
 
-
 /**
-function J = computeCostMulti(X, y, theta)
-  m = length(y); % number of training examples
-  h_theta = X*theta;
-  summand_linear = h_theta-y;
-  summand_squared = summand_linear .^ 2;
-  J = sum(summand_squared)/2/m;
+ *  hypothesis \f$h_\theta(X)\f$
+ *  \param theta
  */
 template <typename ScalarType>
-viennacl::scalar<ScalarType> CostFunction<ScalarType>::operator()(const viennacl::vector<ScalarType> &theta) {
+viennacl::vector<ScalarType>
+CostFunction<ScalarType>::h_theta(const viennacl::vector<ScalarType> &theta) const {
     assert(theta.size() == X_.size1());
+    return viennacl::linalg::prod(trans(X_), theta);
+}
 
-    viennacl::vector<ScalarType> h_theta = viennacl::linalg::prod(trans(X_), theta);
-    viennacl::vector<ScalarType> deviation = h_theta - y_;
-//    VectorPrinter<viennacl::vector<ScalarType>> p3(deviation);
-//    p3.print("deviation");
+/**
+ *  How far hypothesis \f$h_\theta(X)\f$ misses training examples \f$y\f$
+ *  \param theta
+ */
+template <typename ScalarType>
+viennacl::vector<ScalarType>
+CostFunction<ScalarType>::deviation(const viennacl::vector<ScalarType> &theta) const {
+    return h_theta(theta) - y_;
+}
 
-    return viennacl::linalg::inner_prod(deviation, deviation);
+/**
+ *  cost function for given \f$\theta\f$
+ *  \param theta
+ */
+template <typename ScalarType>
+viennacl::scalar<ScalarType>
+CostFunction<ScalarType>::operator()(const viennacl::vector<ScalarType> &theta) const {
+    viennacl::vector<ScalarType> d = deviation(theta);
+    return viennacl::linalg::inner_prod(d, d) / ScalarType(2*y_.size());
+}
+
+/**
+ *  gradient of cost function for given \f$\theta\f$
+ *  \param theta
+ *  \todo the arguments to prod() may be wrong; in Matlab it is actually (X*theta-y)' * X
+ */
+template <typename ScalarType>
+viennacl::vector<ScalarType>
+CostFunction<ScalarType>::gradient(const viennacl::vector<ScalarType> &theta) const {
+    return viennacl::linalg::prod(X_, deviation(theta)) / ScalarType(y_.size());
 }

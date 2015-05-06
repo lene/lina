@@ -2,6 +2,8 @@
 #include "FileReader.h"
 #include "CostFunction.h"
 #include "FeatureNormalize.h"
+#include "GradientDescent.h"
+#include "VectorPrinter.h"
 
 #define VIENNACL_WITH_UBLAS 1
 #define VIENNACL_WITH_OPENCL 0
@@ -22,6 +24,7 @@ int main() {
     MatrixType X = read_matrix<ScalarType>(std::string(""));
     VectorType y = read_vector<ScalarType>(std::string(""));
     VectorType theta(X.size1());
+    theta.clear();              // theta = (0,0,...,0)
 
 //    FeatureNormalize<ScalarType> normalize(X);
 //    auto throwaway = normalize.normalize();
@@ -30,6 +33,15 @@ int main() {
     ScalarType cost = cost_function(theta);
 
     std::cout << "Cost: " << cost << " dot: " << viennacl::linalg::inner_prod(y, y);
+
+    GradientDescent<ScalarType> grad(cost_function);
+    grad.optimize(theta);
+
+    theta = grad.getMinimum();
+    VectorPrinter<VectorType> printer(theta);
+    printer.print("Optimal theta:");
+    std::cout << " Cost: " << cost_function(theta) << std::endl;
+    std::copy(grad.getHistory().begin(), grad.getHistory().end(), std::ostream_iterator<ScalarType >(std::cout, " "));
 
     return 0;
 }
