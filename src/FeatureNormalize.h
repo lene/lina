@@ -33,12 +33,12 @@ public:
 
     viennacl::matrix<ScalarType> restore(const viennacl::matrix<ScalarType> &matrix);
 
-private:
-
-    ScalarType sum(const ublas::vector<ScalarType> &v) {
+    static ScalarType sum(const ublas::vector<ScalarType> &v) {
         ublas::vector<ScalarType> ones = ublas::scalar_vector<ScalarType>(v.size(), 1.0);
         return ublas::inner_prod(v, ones);
     }
+
+private:
 
     ScalarType mean(const ublas::vector<ScalarType> &v) {
         return sum(v) / v.size();
@@ -54,29 +54,16 @@ private:
     }
 
     void runNormalization() {
-        unsigned long len = blas_matrix_.size2();
-        for (unsigned long i = 0; i < len; ++i) {
+        for (unsigned long i = 0; i < blas_matrix_.size2(); ++i) {
             ublas::vector<ScalarType> column = ublas::column(blas_matrix_, i);
-            VectorPrinter<ublas::vector<ScalarType>> pc(column);
-            pc.print("col");
             mu_(i) = mean(column);
-            std::cout << "mu: " << mu_(i) << std::endl;
-            ublas::vector<ScalarType> normalized_column = ublas::column(blas_matrix_, i);
-            normalized_column -= ScalarType(mu_(i)) * ublas::scalar_vector<ScalarType>(normalized_column.size(), 1.0);
-            VectorPrinter<ublas::vector<ScalarType>> pnc(normalized_column);
-            pnc.print("normalized 1");
-            sigma_(i) = stddev(normalized_column);
-            std::cout << "sigma: " << sigma_(i) << std::endl;
-            normalized_column /= sigma_(i);
-            VectorPrinter<ublas::vector<ScalarType>> pnc2(normalized_column);
-            pnc2.print("normalized 2");
+            column -= ScalarType(mu_(i)) * ublas::scalar_vector<ScalarType>(column.size(), 1.0);
+            sigma_(i) = stddev(column);
+            column /= sigma_(i);
             for (unsigned j = 0; j < blas_matrix_.size1(); ++j) {
-                normalized_matrix_(j, i) = normalized_column(j);
+                normalized_matrix_(j, i) = column(j);
             }
         }
-        MatrixPrinter<ublas::matrix<ScalarType>> p(normalized_matrix_);
-        p.print("normalized");
-
     }
 
     ublas::matrix<ScalarType> blas_matrix_;
