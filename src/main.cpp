@@ -21,6 +21,7 @@ int main() {
     MatrixType X = FileReader::X<ScalarType>(std::string(""));
     VectorType y = FileReader::y<ScalarType>(std::string(""));
     VectorType theta(X.size1());
+    theta.clear();              // theta = (0,0,...,0)
 
 //    FeatureNormalize<ScalarType> normalize(X);
 //    auto throwaway = normalize.normalize();
@@ -30,8 +31,7 @@ int main() {
 
     std::cout << "Cost: " << cost << " dot: " << viennacl::linalg::inner_prod(y, y);
 
-    GradientDescent grad(cost_function);
-    theta.clear();
+    GradientDescent<ScalarType> grad(cost_function);
     grad.optimize(theta);
 
     theta = grad.getMinimum();
