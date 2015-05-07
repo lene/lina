@@ -29,17 +29,21 @@ add_executable(
     test/test_gradientdescent.cpp
     src/CostFunction.h src/CostFunction.cpp
     src/FeatureNormalize.cpp src/FeatureNormalize.h
-)
+src/FileReader.cpp)
 target_link_libraries(lina_test ${GTEST_LIBRARIES} pthread)
 
 set(
     SOURCE_FILES
     src/main.cpp src/Timer.cpp src/Timer.h src/RandomFiller.cpp src/RandomFiller.h
-    src/BenchmarkVienna.impl.h src/BenchmarkVienna.h src/CostFunction.impl.h src/CostFunction.h
     src/FileReader.impl.h src/FileReader.h src/MatrixPrinter.h  src/VectorPrinter.h
-    src/FeatureNormalize.cpp src/FeatureNormalize.h src/GradientDescent.impl.h src/GradientDescent.h
+    src/GradientDescent.impl.h src/GradientDescent.h
 )
-add_executable(lina ${SOURCE_FILES} src/BenchmarkVienna.cpp src/CostFunction.cpp src/FeatureNormalize.impl.h)
+add_executable(
+    lina ${SOURCE_FILES}
+    src/BenchmarkVienna.cpp src/BenchmarkVienna.impl.h src/BenchmarkVienna.h
+    src/CostFunction.cpp src/CostFunction.impl.h src/CostFunction.h
+    src/FeatureNormalize.impl.h src/FeatureNormalize.cpp src/FeatureNormalize.h
+src/FileReader.cpp)
 # also, fuck the attempt above. in fact, fuck CMake.
 target_link_libraries (lina -L/opt/AMDAPPSDK-2.9-1/lib/x86_64 -lOpenCL)
 

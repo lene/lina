@@ -19,6 +19,4 @@ namespace FileReader {
 
 };
 
-#include "FileReader.impl.h"
-
 #endif //LINA_FILEREADER_H
