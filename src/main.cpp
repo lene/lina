@@ -3,6 +3,7 @@
 #include "FeatureNormalize.h"
 #include "GradientDescent.h"
 #include "VectorPrinter.h"
+#include "BenchmarkVienna.h"
 
 #include <sstream>
 

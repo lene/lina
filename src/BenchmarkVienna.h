@@ -24,6 +24,4 @@ private:
 
 };
 
-#include "BenchmarkVienna.impl.h"
-
 #endif //LINA_BENCHMARKVIENNA_H
