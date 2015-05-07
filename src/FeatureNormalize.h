@@ -16,33 +16,27 @@
 
 using namespace boost::numeric;
 
-template <typename ScalarType>
+template <typename Scalar>
 class FeatureNormalize {
 public:
-    FeatureNormalize(const viennacl::matrix<ScalarType> &X):
-            blas_matrix_(X.size1(), X.size2()),
-            normalized_matrix_(X.size1(), X.size2()),
-            mu_(X.size2()), sigma_(X.size2()) {
-        viennacl::copy(X, blas_matrix_);
-        runNormalization();
-    }
+    FeatureNormalize(const viennacl::matrix<Scalar> &X);
 
-    const ublas::matrix<ScalarType> &normalize() const {
+    const ublas::matrix<Scalar> &normalize() const {
         return normalized_matrix_;
     }
 
-    const ublas::vector<ScalarType> &mu() const {
+    const ublas::vector<Scalar> &mu() const {
         return mu_;
     }
 
-    const ublas::vector<ScalarType> &sigma() const {
+    const ublas::vector<Scalar> &sigma() const {
         return sigma_;
     }
 
-    viennacl::matrix<ScalarType> restore(const viennacl::matrix<ScalarType> &matrix) {
+    viennacl::matrix<Scalar> restore(const viennacl::matrix<Scalar> &matrix) {
         assert(matrix.size1() == normalized_matrix_.size1());
         assert(matrix.size2() == normalized_matrix_.size2());
-        viennacl::matrix<ScalarType> restored(normalized_matrix_.size1(), normalized_matrix_.size2());
+        viennacl::matrix<Scalar> restored(normalized_matrix_.size1(), normalized_matrix_.size2());
 
         for (unsigned long i = 0; i < normalized_matrix_.size2(); ++i) {
             for (unsigned j = 0; j < normalized_matrix_.size1(); ++j) {
@@ -53,31 +47,31 @@ public:
         return restored;
     }
 
-    static ScalarType sum(const ublas::vector<ScalarType> &v) {
-        ublas::vector<ScalarType> ones = ublas::scalar_vector<ScalarType>(v.size(), 1.0);
+    static Scalar sum(const ublas::vector<Scalar> &v) {
+        ublas::vector<Scalar> ones = ublas::scalar_vector<Scalar>(v.size(), 1.0);
         return ublas::inner_prod(v, ones);
     }
 
 private:
 
-    ScalarType mean(const ublas::vector<ScalarType> &v) {
+    Scalar mean(const ublas::vector<Scalar> &v) {
         return sum(v) / v.size();
     }
 
-    ScalarType variance(const ublas::vector<ScalarType> &v) {
-        ublas::vector<ScalarType> sqdiff = element_prod(v, v);
+    Scalar variance(const ublas::vector<Scalar> &v) {
+        ublas::vector<Scalar> sqdiff = element_prod(v, v);
         return mean(sqdiff);
     }
 
-    ScalarType stddev(const ublas::vector<ScalarType> &v) {
+    Scalar stddev(const ublas::vector<Scalar> &v) {
         return sqrt(variance(v));
     }
 
     void runNormalization() {
         for (unsigned long i = 0; i < blas_matrix_.size2(); ++i) {
-            ublas::vector<ScalarType> column = ublas::column(blas_matrix_, i);
+            ublas::vector<Scalar> column = ublas::column(blas_matrix_, i);
             mu_(i) = mean(column);
-            column -= ScalarType(mu_(i)) * ublas::scalar_vector<ScalarType>(column.size(), 1.0);
+            column -= Scalar(mu_(i)) * ublas::scalar_vector<Scalar>(column.size(), 1.0);
             sigma_(i) = stddev(column);
             column /= sigma_(i);
             for (unsigned j = 0; j < blas_matrix_.size1(); ++j) {
@@ -86,10 +80,10 @@ private:
         }
     }
 
-    ublas::matrix<ScalarType> blas_matrix_;
-    ublas::matrix<ScalarType> normalized_matrix_;
-    ublas::vector<ScalarType> mu_;
-    ublas::vector<ScalarType> sigma_;
+    ublas::matrix<Scalar> blas_matrix_;
+    ublas::matrix<Scalar> normalized_matrix_;
+    ublas::vector<Scalar> mu_;
+    ublas::vector<Scalar> sigma_;
 };
 
 
