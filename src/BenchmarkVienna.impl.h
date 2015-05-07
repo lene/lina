@@ -2,6 +2,9 @@
 // Created by lene on 04.05.15.
 //
 
+#ifndef LINA_BENCHMARKVIENNA_IMPL_H
+#define LINA_BENCHMARKVIENNA_IMPL_H
+
 #include "BenchmarkVienna.h"
 
 #include "Timer.h"
@@ -93,3 +96,5 @@ bool BenchmarkVienna<ScalarType>::is_equal(const ublas::matrix<ScalarType, orien
     }
     return true;
 }
+
+#endif

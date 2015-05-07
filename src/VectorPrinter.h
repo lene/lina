@@ -2,8 +2,8 @@
 // Created by lene on 04.05.15.
 //
 
-#ifndef TAVSIYE_VECTORPRINTER_H
-#define TAVSIYE_VECTORPRINTER_H
+#ifndef LINA_VECTORPRINTER_H
+#define LINA_VECTORPRINTER_H
 
 #include <iostream>
 #include <iomanip>
@@ -34,4 +34,4 @@ std::ostream& operator<<(std::ostream& os, const viennacl::vector<Scalar> &M) {
 }
 
 
-#endif //TAVSIYE_VECTORPRINTER_H
+#endif //LINA_VECTORPRINTER_H

@@ -2,8 +2,8 @@
 // Created by lene on 04.05.15.
 //
 
-#ifndef TAVSIYE_FEATURENORMALIZE_H
-#define TAVSIYE_FEATURENORMALIZE_H
+#ifndef LINA_FEATURENORMALIZE_H
+#define LINA_FEATURENORMALIZE_H
 
 #include <viennacl/vector.hpp>
 #include <viennacl/matrix.hpp>
@@ -93,4 +93,4 @@ private:
 };
 
 
-#endif //TAVSIYE_FEATURENORMALIZE_H
+#endif //LINA_FEATURENORMALIZE_H

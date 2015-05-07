@@ -2,8 +2,8 @@
 // Created by lene on 04.05.15.
 //
 
-#ifndef TAVSIYE_RANDOMFILLER_H
-#define TAVSIYE_RANDOMFILLER_H
+#ifndef LINA_RANDOMFILLER_H
+#define LINA_RANDOMFILLER_H
 
 #include <boost/numeric/ublas/matrix.hpp>
 
@@ -36,4 +36,4 @@ private:
 };
 
 
-#endif //TAVSIYE_RANDOMFILLER_H
+#endif //LINA_RANDOMFILLER_H

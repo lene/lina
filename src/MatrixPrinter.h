@@ -2,8 +2,8 @@
 // Created by lene on 04.05.15.
 //
 
-#ifndef TAVSIYE_MATRIXPRINTER_H
-#define TAVSIYE_MATRIXPRINTER_H
+#ifndef LINA_MATRIXPRINTER_H
+#define LINA_MATRIXPRINTER_H
 
 #include <iostream>
 #include <iomanip>
@@ -37,4 +37,4 @@ std::ostream& operator<<(std::ostream& os, const viennacl::matrix<Scalar> &M) {
 }
 
 
-#endif //TAVSIYE_MATRIXPRINTER_H
+#endif //LINA_MATRIXPRINTER_H

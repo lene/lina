@@ -2,8 +2,8 @@
 // Created by lene on 04.05.15.
 //
 
-#ifndef TAVSIYE_TIMER_H
-#define TAVSIYE_TIMER_H
+#ifndef LINA_TIMER_H
+#define LINA_TIMER_H
 
 class Timer {
 
@@ -20,4 +20,4 @@ private:
 
 
 
-#endif //TAVSIYE_TIMER_H
+#endif //LINA_TIMER_H

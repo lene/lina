@@ -2,6 +2,9 @@
 // Created by lene on 04.05.15.
 //
 
+#ifndef LINA_COSTFUNCTION_IMPL_H
+#define LINA_COSTFUNCTION_IMPL_H
+
 #include "CostFunction.h"
 #include "MatrixPrinter.h"
 #include "VectorPrinter.h"
@@ -64,3 +67,5 @@ viennacl::vector<Scalar>
 CostFunction<Scalar>::gradient(const viennacl::vector<Scalar> &theta) const {
     return viennacl::linalg::prod(trans(X_), deviation(theta)) / Scalar(y_.size());
 }
+
+#endif

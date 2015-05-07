@@ -2,6 +2,10 @@
 // Created by lene on 05.05.15.
 //
 
+
+#ifndef LINA_GRADIENTDESCENT_IMPL_H
+#define LINA_GRADIENTDESCENT_IMPL_H
+
 #include "GradientDescent.h"
 
 template <typename Scalar>
@@ -50,3 +54,5 @@ bool GradientDescent<Scalar>::hasConverged() {
     if (history_.size() < 3) return false;
     return history_.back() == history_[history_.size()-3];
 }
+
+#endif

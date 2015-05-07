@@ -2,8 +2,8 @@
 // Created by lene on 04.05.15.
 //
 
-#ifndef TAVSIYE_COSTFUNCTION_H
-#define TAVSIYE_COSTFUNCTION_H
+#ifndef LINA_COSTFUNCTION_H
+#define LINA_COSTFUNCTION_H
 
 #include "MatrixPrinter.h"
 #include "VectorPrinter.h"
@@ -27,7 +27,7 @@ public:
 
     const viennacl::matrix<Scalar> &X() { return X_; }
 
-    friend std::ostream& operator<<(std::ostream& os, const CostFunction<float>& cost) {
+    friend std::ostream& operator<<(std::ostream& os, const CostFunction<Scalar>& cost) {
         os << cost.X_ << cost.y_;
         return os;
     }
@@ -40,4 +40,4 @@ private:
 
 #include "CostFunction.impl.h"
 
-#endif //TAVSIYE_COSTFUNCTION_H
+#endif //LINA_COSTFUNCTION_H

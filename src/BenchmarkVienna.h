@@ -2,8 +2,8 @@
 // Created by lene on 04.05.15.
 //
 
-#ifndef TAVSIYE_BENCHMARKVIENNA_H
-#define TAVSIYE_BENCHMARKVIENNA_H
+#ifndef LINA_BENCHMARKVIENNA_H
+#define LINA_BENCHMARKVIENNA_H
 
 
 #include "Timer.h"
@@ -26,4 +26,4 @@ private:
 
 #include "BenchmarkVienna.impl.h"
 
-#endif //TAVSIYE_BENCHMARKVIENNA_H
+#endif //LINA_BENCHMARKVIENNA_H

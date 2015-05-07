@@ -2,6 +2,9 @@
 // Created by lene on 04.05.15.
 //
 
+#ifndef LINA_FILEREADER_IMPL_H
+#define LINA_FILEREADER_IMPL_H
+
 #include "FileReader.h"
 #include "MatrixPrinter.h"
 
@@ -68,3 +71,5 @@ namespace FileReader {
         return augmented;
     }
 }
+
+#endif
