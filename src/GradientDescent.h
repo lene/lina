@@ -48,6 +48,4 @@ private:
 
 };
 
-#include "GradientDescent.impl.h"
-
 #endif //LINA_GRADIENTDESCENT_H
