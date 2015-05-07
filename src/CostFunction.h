@@ -37,7 +37,4 @@ private:
     const viennacl::vector<Scalar> &y_;
 };
 
-
-#include "CostFunction.impl.h"
-
 #endif //LINA_COSTFUNCTION_H

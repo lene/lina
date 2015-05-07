@@ -8,6 +8,7 @@
 #include <gtest/gtest.h>
 
 #include <viennacl/matrix.hpp>
+#include "viennacl/linalg/inner_prod.hpp"
 
 #include <boost/numeric/ublas/matrix.hpp>
 using namespace boost::numeric;
