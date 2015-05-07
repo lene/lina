@@ -14,11 +14,7 @@ public:
     const unsigned DEFAULT_NUM_ITER = 10000;
     const Scalar DEFAULT_LEARNING_RATE = 1;
 
-    GradientDescent(const CostFunction<Scalar> &function):
-            func_(function),
-            alpha_(DEFAULT_LEARNING_RATE),
-            max_iter_(DEFAULT_NUM_ITER),
-            iter_(0), history_() {}
+    GradientDescent(const CostFunction<Scalar> &function);
 
     bool optimize(const viennacl::vector<Scalar> &initial_guess);
 

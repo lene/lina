@@ -23,8 +23,7 @@ CostFunction<Scalar>::CostFunction(
 
 /**
  *  hypothesis \f$h_\theta(X)\f$
- *  \param theta    MatrixPrinter<viennacl::matrix<Scalar>> p(X_);
-    p.print("X");
+ *  \param theta
 
  */
 template <typename Scalar>
@@ -58,7 +57,7 @@ CostFunction<Scalar>::operator()(const viennacl::vector<Scalar> &theta) const {
 /**
  *  gradient of cost function for given \f$\theta\f$
  *  \param theta
- *  \todo the arguments to prod() may be wrong; in Matlab it is actually (X*theta-y)' * X
+ *  \todo the arguments to prod() may be wrong; in Matlab it is (X*theta-y)' * X, here X' * (X*theta-y)
  */
 template <typename Scalar>
 viennacl::vector<Scalar>

@@ -15,50 +15,48 @@
 #endif
 
 typedef double Scalar;
-typedef viennacl::vector<Scalar> VectorType;
-typedef viennacl::matrix<Scalar> MatrixType;
+typedef viennacl::vector<Scalar> Vector;
+typedef viennacl::matrix<Scalar> Matrix;
 
-int main() {
+void debugGradientDescent(const GradientDescent<Scalar> &grad, const CostFunction<Scalar> &cost, const Vector &theta) {
+    std::cout << grad.getHistory().size() << " steps: ";
+    for (auto val: grad.getHistory()) std::cout << val << " ";
+    std::cout << std::endl;
 
-    std::stringstream mstream(FileReader::testmatrix);
-    MatrixType Xorig = FileReader::read_matrix<Scalar>(mstream);
-    std::stringstream vstream(FileReader::testvector);
-    VectorType y = FileReader::read_vector<Scalar>(vstream);
+}
 
-    MatrixPrinter<MatrixType>p(Xorig);
-    p.print("X");
-
-    VectorPrinter<VectorType> pv(y);
-    pv.print("y");
-
-    FeatureNormalize<Scalar> normalize(Xorig);
+Vector optimalTheta(const Matrix &X, const Vector &y) {
+    FeatureNormalize<Scalar> normalize(X);
     auto Xnorm = normalize.normalize();
     viennacl::matrix<Scalar> vXnorm(Xnorm.size1(), Xnorm.size2());
     copy(Xnorm, vXnorm);
     auto Xbias = FileReader::add_bias_column(vXnorm);
 
-    MatrixPrinter<MatrixType>pb(Xbias);
-    pb.print("Xbias");
-
-    VectorType theta(Xbias.size2());
+    Vector theta(Xbias.size2());
     theta.clear();              // theta = (0,0,...,0)
 
     CostFunction<Scalar> cost_function(Xbias, y);
-    Scalar cost = cost_function(theta);
-
-    std::cout << "Cost: " << cost << " dot: " << viennacl::linalg::inner_prod(y, y) << std::endl;
 
     GradientDescent<Scalar> grad(cost_function);
-    grad.setLearningRate(1);
     grad.optimize(theta);
 
-    theta = grad.getMinimum();
-    VectorPrinter<VectorType> printer(theta);
+    debugGradientDescent(grad, cost_function, theta);
+
+    return grad.getMinimum();
+}
+
+int main() {
+
+    std::stringstream mstream(FileReader::testmatrix);
+    Matrix Xorig = FileReader::read_matrix<Scalar>(mstream);
+    std::stringstream vstream(FileReader::testvector);
+    Vector y = FileReader::read_vector<Scalar>(vstream);
+
+    Vector theta = optimalTheta(Xorig, y);
+
+    VectorPrinter<Vector> printer(theta);
     printer.print("Optimal theta:");
-    std::cout << "Cost: " << cost_function(theta) << std::endl;
-    std::cout << grad.getHistory().size() << " steps: ";
-    for (auto val: grad.getHistory()) std::cout << val << " ";
-    std::cout << std::endl;
-    return 0;
+
+    return EXIT_SUCCESS;
 
 }
