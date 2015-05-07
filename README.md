@@ -29,9 +29,7 @@ YMMV, packages to install depend on present GPU:
 
 ## To do
 
-* test suite for gradient descent
 * factor out the bookkeeping in main.cpp into an easily usable class
-* factor out setting up matrices in test/
 * overhaul matrix and vector printer
 * factor out matrix and vector types so they can be used as template parameters
   * easier conversion between ublas and viennacl data types and algorithms?
