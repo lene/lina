@@ -26,5 +26,12 @@ private:
 
 };
 
+template <typename Scalar>
+std::ostream& operator<<(std::ostream& os, const viennacl::vector<Scalar> &M) {
+    VectorPrinter<viennacl::vector<Scalar>> p(M);
+    p.print("", os);
+    return os;
+}
+
 
 #endif //TAVSIYE_VECTORPRINTER_H

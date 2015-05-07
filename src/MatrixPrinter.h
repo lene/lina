@@ -8,6 +8,8 @@
 #include <iostream>
 #include <iomanip>
 
+#include <viennacl/matrix.hpp>
+
 template <typename Matrix>
 class MatrixPrinter {
 public:
@@ -26,6 +28,13 @@ public:
 private:
     const Matrix &matrix_;
 };
+
+template <typename Scalar>
+std::ostream& operator<<(std::ostream& os, const viennacl::matrix<Scalar> &M) {
+    MatrixPrinter<viennacl::matrix<Scalar>> p(M);
+    p.print("", os);
+    return os;
+}
 
 
 #endif //TAVSIYE_MATRIXPRINTER_H

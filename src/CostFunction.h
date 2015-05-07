@@ -5,6 +5,8 @@
 #ifndef TAVSIYE_COSTFUNCTION_H
 #define TAVSIYE_COSTFUNCTION_H
 
+#include "MatrixPrinter.h"
+#include "VectorPrinter.h"
 
 #include <viennacl/vector.hpp>
 
@@ -25,10 +27,16 @@ public:
 
     const viennacl::matrix<Scalar> &X() { return X_; }
 
+    friend std::ostream& operator<<(std::ostream& os, const CostFunction<float>& cost) {
+        os << cost.X_ << cost.y_;
+        return os;
+    }
+
 private:
     const viennacl::matrix<Scalar> &X_;
     const viennacl::vector<Scalar> &y_;
 };
+
 
 #include "CostFunction.impl.h"
 
