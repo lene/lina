@@ -8,6 +8,9 @@
 
 #include <viennacl/matrix.hpp>
 
+std::vector<Utilities::vVector> Utilities::persistentVectors = std::vector<Utilities::vVector>();
+std::vector<Utilities::vMatrix> Utilities::persistentMatrices = std::vector<Utilities::vMatrix>();
+
 Utilities::vVector Utilities::vectorFixture(const std::string &vec_data) {
     std::stringstream stream(vec_data);
     return FileReader::read_vector<float>(stream);
@@ -19,6 +22,8 @@ Utilities::vMatrix Utilities::matrixFixture(const std::string &mat_data) {
 }
 
 CostFunction<float> Utilities::costFunctionFixture(const std::string &mat_data, const std::string &vec_data) {
-    return CostFunction<float>(matrixFixture(mat_data), vectorFixture(vec_data));
+    persistentMatrices.push_back(matrixFixture(mat_data));
+    persistentVectors.push_back(vectorFixture(vec_data));
+    return CostFunction<float>(persistentMatrices.back(), persistentVectors.back());
 }
 

@@ -28,6 +28,9 @@ public:
             const std::string &vec_data = "3\n0.1 0.2 0.3"
     );
 
+private:
+    static std::vector<vVector> persistentVectors;
+    static std::vector<vMatrix> persistentMatrices;
 };
 
 
