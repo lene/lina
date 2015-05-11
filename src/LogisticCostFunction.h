@@ -17,6 +17,11 @@ public:
             const viennacl::vector<Scalar> &y
     ) : CostFunction<Scalar>(X, y) { }
 
+    virtual viennacl::vector<Scalar> h_theta(const viennacl::vector<Scalar> &theta) const override;
+
+    virtual viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const override;
+
+    virtual viennacl::vector<Scalar> gradient(const viennacl::vector<Scalar> &theta) const override;
 };
 
 
