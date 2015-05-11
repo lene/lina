@@ -9,7 +9,7 @@
 
 template<typename Scalar>
 viennacl::vector<Scalar> LogisticCostFunction<Scalar>::h_theta(const viennacl::vector<Scalar> &theta) const {
-    return CostFunction<Scalar>::h_theta(theta);
+    return sigmoid(CostFunction<Scalar>::h_theta(theta));
 }
 
 template<typename Scalar>
