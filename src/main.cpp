@@ -4,6 +4,7 @@
 #include "GradientDescent.h"
 #include "VectorPrinter.h"
 #include "BenchmarkVienna.h"
+#include "LinearRegressionSolver.h"
 
 #include <sstream>
 
@@ -40,14 +41,15 @@ void debugGradientDescent(const GradientDescent<Scalar> &grad) {
 }
 
 Vector optimalTheta(const Matrix &X, const Vector &y) {
-    FeatureNormalize<Scalar> normalize(X);
-    auto Xnorm = normalize.normalize();
-    viennacl::matrix<Scalar> vXnorm(Xnorm.size1(), Xnorm.size2());
-    copy(Xnorm, vXnorm);
-    auto Xbias = FileReader::add_bias_column(vXnorm);
+
+    LinearRegressionSolver<Scalar> L(X, y);
+
+    auto Xbias = L.Xbias();
 
     Vector theta(Xbias.size2());
     theta.clear();              // theta = (0,0,...,0)
+
+    L.optimize(theta);
 
     CostFunction<Scalar> cost_function(Xbias, y);
 
