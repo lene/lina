@@ -25,6 +25,7 @@ public:
     );
 
     bool optimize(const Vector &theta);
+    viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const;
 
     Vector minTheta();
 

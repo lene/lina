@@ -10,21 +10,23 @@
 
 class GradDescTest: public ::testing::Test {
 protected:
+    const std::string X_ = "3 2 1 1 1 0 1 0";
+    const std::string y_ = "3 1 0 0";
 };
 
 TEST_F(GradDescTest, Initializes) {
-    auto cost = Utilities::costFunctionFixture("3 2 1 1 1 0 1 0", "3 1 0 0");
+    auto cost = Utilities::costFunctionFixture(X_, y_);
     GradientDescent<float> grad(cost);
 }
 
 TEST_F(GradDescTest, ConvergesOnSimpleSystem) {
-    auto cost = Utilities::costFunctionFixture("3 2 1 1 1 0 1 0", "3 1 0 0");
+    auto cost = Utilities::costFunctionFixture(X_, y_);
     GradientDescent<float> grad(cost);
     ASSERT_TRUE(grad.optimize(Utilities::vectorFixture("2 0 0")));
 }
 
 TEST_F(GradDescTest, SolvesSimpleSystem) {
-    auto cost = Utilities::costFunctionFixture("3 2 1 1 1 0 1 0", "3 1 0 0");
+    auto cost = Utilities::costFunctionFixture(X_, y_);
     GradientDescent<float> grad(cost);
     grad.optimize(Utilities::vectorFixture("2 0 0"));
     auto theta = grad.getMinimum();
@@ -34,7 +36,7 @@ TEST_F(GradDescTest, SolvesSimpleSystem) {
 }
 
 TEST_F(GradDescTest, SimpleSystemConvergesToCostZero) {
-    auto cost = Utilities::costFunctionFixture("3 2 1 1 1 0 1 0", "3 1 0 0");
+    auto cost = Utilities::costFunctionFixture(X_, y_);
     GradientDescent<float> grad(cost);
     grad.optimize(Utilities::vectorFixture("2 0 0"));
     auto theta = grad.getMinimum();
@@ -42,14 +44,14 @@ TEST_F(GradDescTest, SimpleSystemConvergesToCostZero) {
 }
 
 TEST_F(GradDescTest, IterationsAreOneLessThanHistorySizeCauseTheyStartAtZero) {
-    auto cost = Utilities::costFunctionFixture("3 2 1 1 1 0 1 0", "3 1 0 0");
+    auto cost = Utilities::costFunctionFixture(X_, y_);
     GradientDescent<float> grad(cost);
     grad.optimize(Utilities::vectorFixture("2 0 0"));
     ASSERT_EQ(grad.getIterations()+1, grad.getHistory().size());
 }
 
 TEST_F(GradDescTest, LastThreeIterationsEqual) {
-    auto cost = Utilities::costFunctionFixture("3 2 1 1 1 0 1 0", "3 1 0 0");
+    auto cost = Utilities::costFunctionFixture(X_, y_);
     GradientDescent<float> grad(cost);
     grad.optimize(Utilities::vectorFixture("2 0 0"));
     auto history = grad.getHistory();
@@ -59,7 +61,7 @@ TEST_F(GradDescTest, LastThreeIterationsEqual) {
 }
 
 TEST_F(GradDescTest, FourthLastIterationNotEqual) {
-    auto cost = Utilities::costFunctionFixture("3 2 1 1 1 0 1 0", "3 1 0 0");
+    auto cost = Utilities::costFunctionFixture(X_, y_);
     GradientDescent<float> grad(cost);
     grad.optimize(Utilities::vectorFixture("2 0 0"));
     auto history = grad.getHistory();
@@ -67,7 +69,7 @@ TEST_F(GradDescTest, FourthLastIterationNotEqual) {
 }
 
 TEST_F(GradDescTest, ConvergesImmediatelyOnCorrectGuess) {
-    auto cost = Utilities::costFunctionFixture("3 2 1 1 1 0 1 0", "3 1 0 0");
+    auto cost = Utilities::costFunctionFixture(X_, y_);
     GradientDescent<float> grad(cost);
     grad.optimize(Utilities::vectorFixture("2 0 1"));
     auto theta = grad.getMinimum();
@@ -76,7 +78,7 @@ TEST_F(GradDescTest, ConvergesImmediatelyOnCorrectGuess) {
 }
 
 TEST_F(GradDescTest, DoesNotConvergeIfMaxIterTooLow) {
-    auto cost = Utilities::costFunctionFixture("3 2 1 1 1 0 1 0", "3 1 0 0");
+    auto cost = Utilities::costFunctionFixture(X_, y_);
     GradientDescent<float> grad(cost);
     grad.setMaxIter(5);
     ASSERT_FALSE(grad.optimize(Utilities::vectorFixture("2 0 0")));
@@ -85,7 +87,7 @@ TEST_F(GradDescTest, DoesNotConvergeIfMaxIterTooLow) {
 }
 
 TEST_F(GradDescTest, CanRestartIfNotConverged) {
-    auto cost = Utilities::costFunctionFixture("3 2 1 1 1 0 1 0", "3 1 0 0");
+    auto cost = Utilities::costFunctionFixture(X_, y_);
     GradientDescent<float> grad(cost);
     grad.setMaxIter(5);
     grad.optimize(Utilities::vectorFixture("2 0 0"));

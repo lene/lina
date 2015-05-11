@@ -6,3 +6,4 @@
 
 template class LinearRegressionSolver<float>;
 template class LinearRegressionSolver<double>;
+

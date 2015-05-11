@@ -32,6 +32,9 @@ CostFunction<Scalar>::CostFunction(
 template <typename Scalar>
 viennacl::vector<Scalar>
 CostFunction<Scalar>::h_theta(const viennacl::vector<Scalar> &theta) const {
+#   if 0
+        std::cout << X_ << theta << std::endl;
+#   endif
     assert(theta.size() == X_.size2());
     return viennacl::linalg::prod(X_, theta);
 }
