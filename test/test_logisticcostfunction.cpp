@@ -80,6 +80,45 @@ TEST_F(LogisticCostFunctionTest, ReadsCourseData) {
     ASSERT_EQ(2, cost.X().size2());
 }
 
+TEST_F(LogisticCostFunctionTest, Sigmoid) {
+    auto v = Utilities::vectorFixture("3 -1 0 1");
+    ASSERT_FLOAT_EQ(1./(exp(1)+1), LogisticCostFunction<float>::sigmoid(v)(0));
+    ASSERT_FLOAT_EQ(1./2., LogisticCostFunction<float>::sigmoid(v)(1));
+    ASSERT_FLOAT_EQ(1./(exp(-1)+1), LogisticCostFunction<float>::sigmoid(v)(2));
+}
+
+float sigmoid(float x) {
+    return (float) (1.f/(1.f+exp(-x)));
+}
+
+TEST_F(LogisticCostFunctionTest, SimpleData) {
+    auto cost = Utilities::logisticCostFunctionFixture("1 1 1", "1 1");
+    ASSERT_FLOAT_EQ(sigmoid(0), cost.h_theta(Utilities::vectorFixture("1 0"))(0));
+    ASSERT_FLOAT_EQ(sigmoid(1), cost.h_theta(Utilities::vectorFixture("1 1"))(0));
+    ASSERT_FLOAT_EQ(
+            -log(sigmoid(0)),
+            cost(Utilities::vectorFixture("1 0"))
+    );
+    ASSERT_FLOAT_EQ(
+            -log(sigmoid(1)),
+            cost(Utilities::vectorFixture("1 1"))
+    );
+}
+
+TEST_F(LogisticCostFunctionTest, SimpleData2) {
+    auto cost = Utilities::logisticCostFunctionFixture("1 1 1", "1 0");
+    ASSERT_FLOAT_EQ(sigmoid(0), cost.h_theta(Utilities::vectorFixture("1 0"))(0));
+    ASSERT_FLOAT_EQ(sigmoid(1), cost.h_theta(Utilities::vectorFixture("1 1"))(0));
+    ASSERT_FLOAT_EQ(
+            -log(1-sigmoid(0)),
+            cost(Utilities::vectorFixture("1 0"))
+    );
+    ASSERT_FLOAT_EQ(
+            -log(1-sigmoid(1)),
+            cost(Utilities::vectorFixture("1 1"))
+    );
+}
+
 TEST_F(LogisticCostFunctionTest, EvaluatesCourseData) {
     auto cost = Utilities::logisticCostFunctionFixture(X_from_course_, y_from_course_);
     ASSERT_FLOAT_EQ(0.693147, cost(Utilities::vectorFixture("2 0 0")));

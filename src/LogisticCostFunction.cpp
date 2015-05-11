@@ -6,3 +6,4 @@
 
 template class LogisticCostFunction<float>;
 template class LogisticCostFunction<double>;
+

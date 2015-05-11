@@ -36,3 +36,5 @@ YMMV, packages to install depend on present GPU:
   * multi-class classification
 * regularization
 * neural networks
+* compile conditionally on presence of gtest
+

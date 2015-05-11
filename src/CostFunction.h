@@ -32,7 +32,7 @@ public:
         return os;
     }
 
-private:
+protected:
     const viennacl::matrix<Scalar> &X_;
     const viennacl::vector<Scalar> &y_;
 };

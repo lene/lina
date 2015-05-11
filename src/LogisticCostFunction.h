@@ -17,7 +17,8 @@ public:
             const viennacl::vector<Scalar> &y
     ) : CostFunction<Scalar>(X, y) { }
 
-    static viennacl::vector<Scalar> sigmoid(viennacl::vector<Scalar>);
+    static viennacl::vector<Scalar> sigmoid(const viennacl::vector<Scalar> &v);
+    static viennacl::vector<Scalar> log(const viennacl::vector<Scalar> &v);
 
     virtual viennacl::vector<Scalar> h_theta(const viennacl::vector<Scalar> &theta) const override;
 
