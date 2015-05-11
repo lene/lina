@@ -20,10 +20,10 @@ public:
             const viennacl::vector<Scalar> &y
     );
 
-    viennacl::vector<Scalar> h_theta(const viennacl::vector<Scalar> &theta) const;
+    virtual viennacl::vector<Scalar> h_theta(const viennacl::vector<Scalar> &theta) const;
     viennacl::vector<Scalar> deviation(const viennacl::vector<Scalar> &theta) const;
-    viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const;
-    viennacl::vector<Scalar> gradient(const viennacl::vector<Scalar> &theta) const;
+    virtual viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const;
+    virtual viennacl::vector<Scalar> gradient(const viennacl::vector<Scalar> &theta) const;
 
     const viennacl::matrix<Scalar> &X() { return X_; }
 

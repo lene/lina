@@ -27,11 +27,12 @@ add_executable(
     test/tests.cpp test/Utilities.cpp test/Utilities.h
     test/test_costfunction.cpp test/test_filereader.cpp test/test_featurenormalize.cpp
     test/test_gradientdescent.cpp test/test_linearregressionsolver.cpp
+    test/test_logisticcostfunction.cpp
     src/CostFunction.h src/CostFunction.cpp
     src/FeatureNormalize.cpp src/FeatureNormalize.h
     src/FileReader.cpp src/GradientDescent.cpp
     src/LinearRegressionSolver.cpp
-)
+src/LogisticCostFunction.cpp src/LogisticCostFunction.h)
 target_link_libraries(lina_test ${GTEST_LIBRARIES} pthread)
 
 set(
@@ -47,7 +48,7 @@ add_executable(
     src/FeatureNormalize.impl.h src/FeatureNormalize.cpp src/FeatureNormalize.h
     src/FileReader.cpp src/GradientDescent.cpp
     src/LinearRegressionSolver.h src/LinearRegressionSolver.impl.h src/LinearRegressionSolver.cpp
-    )
+    src/LogisticCostFunction.cpp src/LogisticCostFunction.h src/LogisticCostFunction.impl.h)
 # also, fuck the attempt above. in fact, fuck CMake.
 target_link_libraries (lina -L/opt/AMDAPPSDK-2.9-1/lib/x86_64 -lOpenCL)
 
