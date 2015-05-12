@@ -33,13 +33,6 @@ const std::string testmatrix = "47 2 \
 const std::string testvector ="47 \
 399900 329900 369000 232000 539900 299900 314900 198999 212000 242500 239999 347000 329999 699900 259900 449900 299900 199900 499998 599000 252900 255000 242900 259900 573900 249900 464500 469000 475000 299900 349900 169900 314900 579900 285900 249900 229900 345000 549000 287000 368500 329900 314000 299000 179900 299900 239500";
 
-void debugGradientDescent(const GradientDescent<Scalar> &grad) {
-    std::cout << grad.getHistory().size() << " steps: ";
-    for (auto val: grad.getHistory()) std::cout << val << " ";
-    std::cout << std::endl;
-
-}
-
 Vector optimalTheta(const Matrix &X, const Vector &y) {
 
     LinearRegressionSolver<Scalar> L(X, y);
@@ -51,14 +44,7 @@ Vector optimalTheta(const Matrix &X, const Vector &y) {
 
     L.optimize(theta);
 
-    CostFunction<Scalar> cost_function(Xbias, y);
-
-    GradientDescent<Scalar> grad(cost_function);
-    grad.optimize(theta);
-
-    debugGradientDescent(grad);
-
-    return grad.getMinimum();
+    return L.minTheta();
 }
 
 int main() {
