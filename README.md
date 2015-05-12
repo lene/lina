@@ -29,12 +29,17 @@ YMMV, packages to install depend on present GPU:
 
 ## To do
 
+* logistic regression
+  * gradient
+  * minimization
+  * apply to coursera example
+  * training accuracy
+  * regularization
+    * coursera example
+  * multi-class classification
 * ensure that only one matrix is stored in GPU memory at each time when using LinearRegressionSolver
 * factor out matrix and vector types so they can be used as template parameters
   * easier conversion between ublas and viennacl data types and algorithms?
-* logistic regression
-  * multi-class classification
-* regularization
 * neural networks
 * compile conditionally on presence of gtest
 
