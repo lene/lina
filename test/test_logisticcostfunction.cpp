@@ -1,5 +1,6 @@
 #include "LogisticCostFunction.h"
 #include "Utilities.h"
+#include "FileReader.h"
 
 #include <gtest/gtest.h>
 
@@ -124,3 +125,13 @@ TEST_F(LogisticCostFunctionTest, EvaluatesCourseData) {
     ASSERT_FLOAT_EQ(0.693147, cost(Utilities::vectorFixture("2 0 0")));
 }
 
+TEST_F(LogisticCostFunctionTest, GradientCourseData) {
+    auto M = FileReader::add_bias_column<float>(Utilities::matrixFixture(X_from_course_));
+    auto y = Utilities::vectorFixture(y_from_course_);
+    auto cost = LogisticCostFunction<float>(M, y);
+    auto grad = cost.gradient(Utilities::vectorFixture("3 0 0 0"));
+    ASSERT_EQ(3, grad.size());
+    ASSERT_FLOAT_EQ(-0.100000, grad(0));
+    ASSERT_FLOAT_EQ(-12.009217, grad(1));
+    ASSERT_FLOAT_EQ(-11.262842, grad(2));
+}

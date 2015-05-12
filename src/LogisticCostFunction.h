@@ -27,6 +27,7 @@ public:
 
 private:
     viennacl::vector<Scalar> one_;
+
 };
 
 
