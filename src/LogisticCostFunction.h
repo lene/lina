@@ -15,16 +15,18 @@ public:
     LogisticCostFunction(
             const viennacl::matrix<Scalar> &X,
             const viennacl::vector<Scalar> &y
-    ) : CostFunction<Scalar>(X, y) { }
+    );
 
-    static viennacl::vector<Scalar> sigmoid(const viennacl::vector<Scalar> &v);
-    static viennacl::vector<Scalar> log(const viennacl::vector<Scalar> &v);
+    viennacl::vector<Scalar> sigmoid(const viennacl::vector<Scalar> &v) const;
 
     virtual viennacl::vector<Scalar> h_theta(const viennacl::vector<Scalar> &theta) const override;
 
     virtual viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const override;
 
     virtual viennacl::vector<Scalar> gradient(const viennacl::vector<Scalar> &theta) const override;
+
+private:
+    viennacl::vector<Scalar> one_;
 };
 
 

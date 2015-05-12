@@ -81,10 +81,10 @@ TEST_F(LogisticCostFunctionTest, ReadsCourseData) {
 }
 
 TEST_F(LogisticCostFunctionTest, Sigmoid) {
-    auto v = Utilities::vectorFixture("3 -1 0 1");
-    ASSERT_FLOAT_EQ(1./(exp(1)+1), LogisticCostFunction<float>::sigmoid(v)(0));
-    ASSERT_FLOAT_EQ(1./2., LogisticCostFunction<float>::sigmoid(v)(1));
-    ASSERT_FLOAT_EQ(1./(exp(-1)+1), LogisticCostFunction<float>::sigmoid(v)(2));
+    auto cost = Utilities::logisticCostFunctionFixture("1 1 1", "1 1");
+    ASSERT_FLOAT_EQ(1./(exp(1)+1), cost.sigmoid(Utilities::vectorFixture("1 -1"))(0));
+    ASSERT_FLOAT_EQ(1./2., cost.sigmoid(Utilities::vectorFixture("1 0"))(0));
+    ASSERT_FLOAT_EQ(1./(exp(-1)+1), cost.sigmoid(Utilities::vectorFixture("1 1"))(0));
 }
 
 float sigmoid(float x) {
