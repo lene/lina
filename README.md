@@ -30,8 +30,13 @@ YMMV, packages to install depend on present GPU:
 ## To do
 
 * logistic regression
-  * gradient
   * minimization
+    * gradient descent does not give same result as coursera example. debugging approaches:
+      * normalized and unnormalized results different
+      * cost in history differs from cost as applied to result
+      * debug octave code
+        * use gradient descent instead of fminunc, log steps
+      * setup simple system with known result, see what works
   * apply to coursera example
   * training accuracy
   * regularization

@@ -137,7 +137,30 @@ TEST_F(LogisticCostFunctionTest, GradientCourseData) {
     ASSERT_FLOAT_EQ(-11.262842, grad(2));
 }
 
-TEST_F(LogisticCostFunctionTest, GradientDescent) {
+void debugOptimization(const GradientDescent<float> &grad, const CostFunction<float> &cost) {
+    std::cout << "theta min: " << grad.getMinimum() << "cost: " << cost(grad.getMinimum()) << std::endl
+              << grad.getHistory().size() << ": ";
+    for (auto c: grad.getHistory()) std::cout << c << " ";
+    std::cout << std::endl;
+}
+
+TEST_F(LogisticCostFunctionTest, GradientDescentUnnormalized) {
+
+    auto X = Utilities::matrixFixture(X_from_course_);
+    auto M = FileReader::add_bias_column<float>(X);
+    auto y = Utilities::vectorFixture(y_from_course_);
+
+    auto cost = LogisticCostFunction<float>(M, y);
+    auto grad = GradientDescent<float>(cost);
+    grad.setLearningRate(0.005);
+    grad.optimize(Utilities::vectorFixture("3 0 0 0"));
+
+    std::cout << "********** UNNORMALIZED **********" << std::endl;
+    debugOptimization(grad, cost);
+
+}
+
+TEST_F(LogisticCostFunctionTest, GradientDescentNormalized) {
     auto X = Utilities::matrixFixture(X_from_course_);
     FeatureNormalize<float> normalize(X);
     auto Xnorm0 = normalize.normalize();
@@ -148,9 +171,9 @@ TEST_F(LogisticCostFunctionTest, GradientDescent) {
     auto y = Utilities::vectorFixture(y_from_course_);
     auto cost = LogisticCostFunction<float>(M, y);
     auto grad = GradientDescent<float>(cost);
-    grad.setLearningRate(0.005);
+    grad.setLearningRate(1);
     grad.optimize(Utilities::vectorFixture("3 0 0 0"));
-    std::cout << "theta min: " << grad.getMinimum() << "cost: " << cost(grad.getMinimum()) << std::endl
-            << grad.getHistory().size() << ": ";
-    for (auto c: grad.getHistory()) std::cout << c << " ";
+    std::cout << "********** NORMALIZED **********" << std::endl;
+    debugOptimization(grad, cost);
+
 }
