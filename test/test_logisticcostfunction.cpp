@@ -1,6 +1,7 @@
 #include "LogisticCostFunction.h"
 #include "Utilities.h"
 #include "FileReader.h"
+#include "FeatureNormalize.h"
 
 #include <gtest/gtest.h>
 
@@ -134,4 +135,22 @@ TEST_F(LogisticCostFunctionTest, GradientCourseData) {
     ASSERT_FLOAT_EQ(-0.100000, grad(0));
     ASSERT_FLOAT_EQ(-12.009217, grad(1));
     ASSERT_FLOAT_EQ(-11.262842, grad(2));
+}
+
+TEST_F(LogisticCostFunctionTest, GradientDescent) {
+    auto X = Utilities::matrixFixture(X_from_course_);
+    FeatureNormalize<float> normalize(X);
+    auto Xnorm0 = normalize.normalize();
+    viennacl::matrix<float> Xnorm(Xnorm0.size1(), Xnorm0.size2());
+    copy(Xnorm0, Xnorm);
+    auto M = FileReader::add_bias_column<float>(Xnorm);
+
+    auto y = Utilities::vectorFixture(y_from_course_);
+    auto cost = LogisticCostFunction<float>(M, y);
+    auto grad = GradientDescent<float>(cost);
+    grad.setLearningRate(0.005);
+    grad.optimize(Utilities::vectorFixture("3 0 0 0"));
+    std::cout << "theta min: " << grad.getMinimum() << "cost: " << cost(grad.getMinimum()) << std::endl
+            << grad.getHistory().size() << ": ";
+    for (auto c: grad.getHistory()) std::cout << c << " ";
 }

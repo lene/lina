@@ -10,7 +10,7 @@
 
 template <typename Scalar>
 GradientDescent<Scalar>::GradientDescent(const CostFunction<Scalar> &function):
-        func_(function),
+        func_(std::make_shared<const CostFunction<Scalar>>(function)),
         alpha_(DEFAULT_LEARNING_RATE),
         max_iter_(DEFAULT_NUM_ITER),
         iter_(0), history_() {}
@@ -22,7 +22,7 @@ bool GradientDescent<Scalar>::optimize(const viennacl::vector<Scalar> &initial_g
         updateHistory();
         if (hasConverged()) return true;
         adjustLearningRate();
-        viennacl::vector<Scalar> temp = func_.gradient(theta_);
+        viennacl::vector<Scalar> temp = func_->gradient(theta_);
         theta_ -= alpha_*temp;
     }
     return false;
@@ -42,7 +42,7 @@ void GradientDescent<Scalar>::adjustLearningRate() {
 
 template <typename Scalar>
 void GradientDescent<Scalar>::updateHistory() {
-    history_.push_back(func_(theta_));
+    history_.push_back(func_->operator()(theta_));
 }
 
 /**

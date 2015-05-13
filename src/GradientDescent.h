@@ -5,6 +5,7 @@
 #ifndef LINA_GRADIENTDESCENT_H
 #define LINA_GRADIENTDESCENT_H
 
+#include <memory>
 #include "CostFunction.h"
 
 template <typename Scalar>
@@ -39,7 +40,7 @@ private:
     bool hasConverged();
     void adjustLearningRate();
 
-    const CostFunction<Scalar> &func_;
+    std::shared_ptr<const CostFunction<Scalar>> func_;
     viennacl::vector<Scalar> theta_;
     Scalar alpha_;
     unsigned max_iter_;
