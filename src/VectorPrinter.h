@@ -18,7 +18,7 @@ public:
         for (unsigned i = 0; i < vector_.size(); ++i) {
             out << std::setw(8) << std::setprecision(6) << vector_(i) << " ";
         }
-        out << "|" << std::endl;
+        out << "|" ;
     }
 
 private:
