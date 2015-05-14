@@ -140,8 +140,7 @@ TEST_F(LogisticCostFunctionTest, GradientCourseData) {
 void debugOptimization(const GradientDescent<float> &grad, const CostFunction<float> &cost) {
     std::cout << "theta min: " << grad.getMinimum() << "cost: " << cost(grad.getMinimum()) << std::endl
               << grad.getHistory().size() << ": ";
-    for (auto c: grad.getHistory2()) std::cout << c.first << ": " << c.second << "   ";
-    std::cout << std::endl;
+    for (auto c: grad.getHistory2()) std::cout << c.first << ": " << c.second << std::endl;
 }
 
 TEST_F(LogisticCostFunctionTest, GradientDescentUnnormalized) {
