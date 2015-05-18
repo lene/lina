@@ -32,7 +32,6 @@ public:
 
     unsigned getIterations() const { return iter_; }
 
-    std::vector<Scalar> getHistory() const { return history_; }
     std::vector<std::pair<viennacl::vector<Scalar>, Scalar>> getHistory2() const { return history2_; }
 
 private:
@@ -46,7 +45,6 @@ private:
     Scalar alpha_;
     unsigned max_iter_;
     unsigned iter_;
-    std::vector<Scalar> history_;
     std::vector<std::pair<viennacl::vector<Scalar>, Scalar>> history2_;
 
 };

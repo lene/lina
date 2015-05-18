@@ -47,25 +47,25 @@ TEST_F(GradDescTest, IterationsAreOneLessThanHistorySizeCauseTheyStartAtZero) {
     auto cost = Utilities::costFunctionFixture(X_, y_);
     GradientDescent<float> grad(cost);
     grad.optimize(Utilities::vectorFixture("2 0 0"));
-    ASSERT_EQ(grad.getIterations()+1, grad.getHistory().size());
+    ASSERT_EQ(grad.getIterations()+1, grad.getHistory2().size());
 }
 
 TEST_F(GradDescTest, LastThreeIterationsEqual) {
     auto cost = Utilities::costFunctionFixture(X_, y_);
     GradientDescent<float> grad(cost);
     grad.optimize(Utilities::vectorFixture("2 0 0"));
-    auto history = grad.getHistory();
-    ASSERT_EQ(0, history.back());
-    ASSERT_EQ(0, history[history.size()-2]);
-    ASSERT_EQ(0, history[history.size()-3]);
+    auto history = grad.getHistory2();
+    ASSERT_FLOAT_EQ(0, history.back().second);
+    ASSERT_FLOAT_EQ(0, history[history.size()-2].second);
+    ASSERT_FLOAT_EQ(0, history[history.size()-3].second);
 }
 
 TEST_F(GradDescTest, FourthLastIterationNotEqual) {
     auto cost = Utilities::costFunctionFixture(X_, y_);
     GradientDescent<float> grad(cost);
     grad.optimize(Utilities::vectorFixture("2 0 0"));
-    auto history = grad.getHistory();
-    ASSERT_NE(history.back(), history[history.size()-4]);
+    auto history = grad.getHistory2();
+    ASSERT_NE(history.back().second, history[history.size()-4].second);
 }
 
 TEST_F(GradDescTest, ConvergesImmediatelyOnCorrectGuess) {
@@ -74,7 +74,7 @@ TEST_F(GradDescTest, ConvergesImmediatelyOnCorrectGuess) {
     grad.optimize(Utilities::vectorFixture("2 0 1"));
     auto theta = grad.getMinimum();
     ASSERT_EQ(0, cost(theta));
-    for (auto x: grad.getHistory()) ASSERT_EQ(0, x);
+    for (auto x: grad.getHistory2()) ASSERT_EQ(0, x.second);
 }
 
 TEST_F(GradDescTest, DoesNotConvergeIfMaxIterTooLow) {
