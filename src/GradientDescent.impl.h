@@ -10,10 +10,15 @@
 
 template <typename Scalar>
 GradientDescent<Scalar>::GradientDescent(const CostFunction<Scalar> &function):
-        func_(std::make_shared<const CostFunction<Scalar>>(function)),
+//        func_(std::make_shared<const CostFunction<Scalar>>(&function)),
+        func_(&function),
         alpha_(DEFAULT_LEARNING_RATE),
         max_iter_(DEFAULT_NUM_ITER),
-        iter_(0), history2_() {}
+        iter_(0), history_() {
+#   ifdef DEBUG_LOGISTIC_REGRESSION
+    std::cout << "GradientDescent(" << *func_ << ")" << std::endl;
+#   endif
+}
 
 template <typename Scalar>
 bool GradientDescent<Scalar>::optimize(const viennacl::vector<Scalar> &initial_guess) {
@@ -36,13 +41,13 @@ bool GradientDescent<Scalar>::optimize(const viennacl::vector<Scalar> &initial_g
  */
 template <typename Scalar>
 void GradientDescent<Scalar>::adjustLearningRate() {
-    if (history2_.back().second > history2_[history2_.size()-2].second) alpha_ /= 2;
+    if (history_.back().second > history_[history_.size()-2].second) alpha_ /= 2;
     else alpha_ *= 1.2;
 }
 
 template <typename Scalar>
 void GradientDescent<Scalar>::updateHistory() {
-    history2_.push_back(std::make_pair(theta_, func_->operator()(theta_)));
+    history_.push_back(std::make_pair(theta_, func_->operator()(theta_)));
 }
 
 /**
@@ -51,8 +56,8 @@ void GradientDescent<Scalar>::updateHistory() {
  */
 template <typename Scalar>
 bool GradientDescent<Scalar>::hasConverged() {
-    if (history2_.size() < 3) return false;
-    return (history2_.back().second == history2_[history2_.size()-2].second);
+    if (history_.size() < 3) return false;
+    return (history_.back().second == history_[history_.size()-2].second);
 }
 
 #endif

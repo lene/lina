@@ -32,7 +32,7 @@ public:
 
     unsigned getIterations() const { return iter_; }
 
-    std::vector<std::pair<viennacl::vector<Scalar>, Scalar>> getHistory2() const { return history2_; }
+    std::vector<std::pair<viennacl::vector<Scalar>, Scalar>> getHistory() const { return history_; }
 
 private:
 
@@ -40,12 +40,13 @@ private:
     bool hasConverged();
     void adjustLearningRate();
 
-    std::shared_ptr<const CostFunction<Scalar>> func_;
+//    std::shared_ptr<const CostFunction<Scalar>> func_;
+    const CostFunction<Scalar> *func_;
     viennacl::vector<Scalar> theta_;
     Scalar alpha_;
     unsigned max_iter_;
     unsigned iter_;
-    std::vector<std::pair<viennacl::vector<Scalar>, Scalar>> history2_;
+    std::vector<std::pair<viennacl::vector<Scalar>, Scalar>> history_;
 
 };
 
