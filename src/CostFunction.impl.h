@@ -57,6 +57,9 @@ template <typename Scalar>
 viennacl::scalar<Scalar>
 CostFunction<Scalar>::operator()(const viennacl::vector<Scalar> &theta) const {
     viennacl::vector<Scalar> d = deviation(theta);
+#   ifdef DEBUG_LOGISTIC_REGRESSION
+    std::cout << "COST(" << theta << ")" << *this << std::endl;
+#   endif
     return viennacl::linalg::inner_prod(d, d) / Scalar(2*y_.size());
 }
 

@@ -9,6 +9,7 @@
 #include "VectorPrinter.h"
 
 #include <viennacl/vector.hpp>
+#include <typeinfo>
 
 template<typename Scalar>
 class CostFunction {
@@ -28,7 +29,11 @@ public:
     const viennacl::matrix<Scalar> &X() { return X_; }
 
     friend std::ostream& operator<<(std::ostream& os, const CostFunction<Scalar>& cost) {
-        os << cost.X_ << cost.y_;
+        os
+#       ifdef DEBUG_LOGISTIC_REGRESSION
+            << typeid(cost).name()
+#       endif
+          << cost.X_ << cost.y_;
         return os;
     }
 
