@@ -5,6 +5,8 @@
 
 #include <gtest/gtest.h>
 
+#define DEBUG_LOGISTIC_REGRESSION 1
+
 class LogisticCostFunctionTest : public ::testing::Test {
 protected:
     const std::string X_ = "3 2 1 1 1 0 1 0";
@@ -138,12 +140,12 @@ TEST_F(LogisticCostFunctionTest, GradientCourseData) {
 }
 
 void debugOptimization(const GradientDescent<float> &grad, const CostFunction<float> &cost) {
-    std::cout << "theta min: " << grad.getMinimum() << "cost: " << cost(grad.getMinimum()) << std::endl
-              << grad.getHistory2().size() << ": ";
-    for (auto c: grad.getHistory2()) std::cout << c.first << ": " << c.second << std::endl;
+    std::cout << "theta min: " << grad.getMinimum() << " cost: " << cost(grad.getMinimum())
+              << " iterations: " << grad.getHistory().size() << ": "<< std::endl;
+    for (auto c: grad.getHistory()) std::cout << c.first << ": " << c.second << std::endl;
 }
 
-TEST_F(LogisticCostFunctionTest, GradientDescentUnnormalized) {
+TEST_F(LogisticCostFunctionTest, DISABLED_GradientDescentUnnormalized) {
 
     auto X = Utilities::matrixFixture(X_from_course_);
     auto M = FileReader::add_bias_column<float>(X);
@@ -157,9 +159,14 @@ TEST_F(LogisticCostFunctionTest, GradientDescentUnnormalized) {
     std::cout << "********** UNNORMALIZED **********" << std::endl;
     debugOptimization(grad, cost);
 
+    ASSERT_NEAR(-25.16, grad.getMinimum()(0), 0.01);
+    ASSERT_NEAR(  0.20, grad.getMinimum()(1), 0.01);
+    ASSERT_NEAR(  0.20, grad.getMinimum()(2), 0.01);
+    ASSERT_NEAR(  0.20, cost(grad.getMinimum()), 0.01);
+
 }
 
-TEST_F(LogisticCostFunctionTest, GradientDescentNormalized) {
+TEST_F(LogisticCostFunctionTest, DISABLED_GradientDescentNormalized) {
     auto X = Utilities::matrixFixture(X_from_course_);
     FeatureNormalize<float> normalize(X);
     auto Xnorm0 = normalize.normalize();
@@ -174,14 +181,44 @@ TEST_F(LogisticCostFunctionTest, GradientDescentNormalized) {
     grad.optimize(Utilities::vectorFixture("3 0 0 0"));
     std::cout << "********** NORMALIZED **********" << std::endl;
     debugOptimization(grad, cost);
-
 }
 
 TEST_F(LogisticCostFunctionTest, GradientDescentSimple1) {
+    auto cost = Utilities::logisticCostFunctionFixture("1 1 1", "1 0");
+    auto grad = GradientDescent<float>(cost);
+    grad.optimize(Utilities::vectorFixture("1 0"));
+    // optimal theta should be minus infinity, but due to the flat function let's say it's < -10.
+    ASSERT_LT(grad.getMinimum()(0), -10);
+    ASSERT_NEAR(cost(grad.getMinimum()), 0, 1e-6);
+}
+
+TEST_F(LogisticCostFunctionTest, GradientDescentSimple2) {
     auto cost = Utilities::logisticCostFunctionFixture("1 1 1", "1 1");
     auto grad = GradientDescent<float>(cost);
     grad.optimize(Utilities::vectorFixture("1 0"));
+    // optimal theta should be infinity, but due to the flat function let's say it's > 10.
+    ASSERT_GT(grad.getMinimum()(0), 10);
+    ASSERT_NEAR(cost(grad.getMinimum()), 0, 1e-6);
+}
+
+TEST_F(LogisticCostFunctionTest, GradientDescentSimple3) {
+    auto cost = Utilities::logisticCostFunctionFixture("2 1 0 1", "2 0 1");
+    auto grad = GradientDescent<float>(cost);
+    grad.optimize(Utilities::vectorFixture("1 0"));
     debugOptimization(grad, cost);
-    grad.optimize(Utilities::vectorFixture("1 1"));
+
+    // optimal theta should be infinity, but due to the flat function let's say it's > 10.
+    ASSERT_GT(grad.getMinimum()(0), 10);
+//    ASSERT_NEAR(cost(grad.getMinimum()), 0, 1e-6);
+}
+
+TEST_F(LogisticCostFunctionTest, GradientDescentSimple4) {
+    auto cost = Utilities::logisticCostFunctionFixture("2 1 0 1", "2 1 0");
+    auto grad = GradientDescent<float>(cost);
+    grad.optimize(Utilities::vectorFixture("1 0"));
     debugOptimization(grad, cost);
+
+    // optimal theta should be minus infinity, but due to the flat function let's say it's < -10.
+    ASSERT_LT(grad.getMinimum()(0), -10);
+//    ASSERT_NEAR(cost(grad.getMinimum()), 0, 1e-6);
 }
