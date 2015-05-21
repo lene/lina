@@ -6,7 +6,7 @@
 #define LINA_GRADIENTDESCENT_H
 
 #include <memory>
-#include "CostFunction.h"
+#include "LinearCostFunction.h"
 
 template <typename Scalar>
 class GradientDescent {
@@ -15,7 +15,7 @@ public:
     const unsigned DEFAULT_NUM_ITER = 10000;
     const Scalar DEFAULT_LEARNING_RATE = 1;
 
-    GradientDescent(const CostFunction<Scalar> &function);
+    GradientDescent(const LinearCostFunction<Scalar> &function);
 
     bool optimize(const viennacl::vector<Scalar> &initial_guess);
 
@@ -44,8 +44,8 @@ private:
     bool hasConverged();
     void adjustLearningRate();
 
-//    std::shared_ptr<const CostFunction<Scalar>> func_;
-    const CostFunction<Scalar> *func_;
+//    std::shared_ptr<const LinearCostFunction<Scalar>> func_;
+    const LinearCostFunction<Scalar> *func_;
     viennacl::vector<Scalar> theta_;
     Scalar alpha_;
     unsigned max_iter_;

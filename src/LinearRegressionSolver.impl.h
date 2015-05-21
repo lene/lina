@@ -9,7 +9,7 @@
 
 #include "FeatureNormalize.h"
 #include "FileReader.h"
-#include "CostFunction.h"
+#include "LinearCostFunction.h"
 #include "GradientDescent.h"
 
 template <typename Scalar>
@@ -17,7 +17,7 @@ LinearRegressionSolver<Scalar>::LinearRegressionSolver(const Matrix &X, const Ve
         X_(X), y_(y), Xnorm_(X.size1(), X.size2()), Xbias_(X.size1(), X.size2()+1) {
     calculateNormalizedMatrix();
     calculateBiasedMatrix();
-    cost_ = std::make_shared<CostFunction<Scalar>>(Xbias_, y_);
+    cost_ = std::make_shared<LinearCostFunction<Scalar>>(Xbias_, y_);
     grad_ = std::make_shared<GradientDescent<Scalar>>(*cost_);
 
 }

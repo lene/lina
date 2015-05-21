@@ -28,7 +28,7 @@ add_executable(
     test/test_costfunction.cpp test/test_filereader.cpp test/test_featurenormalize.cpp
     test/test_gradientdescent.cpp test/test_linearregressionsolver.cpp
     test/test_logisticcostfunction.cpp
-    src/CostFunction.h src/CostFunction.cpp
+    src/LinearCostFunction.h src/LinearCostFunction.cpp
     src/FeatureNormalize.cpp src/FeatureNormalize.h
     src/FileReader.cpp src/GradientDescent.cpp
     src/LinearRegressionSolver.cpp
@@ -44,7 +44,7 @@ set(
 add_executable(
     lina ${SOURCE_FILES}
     src/BenchmarkVienna.cpp src/BenchmarkVienna.impl.h src/BenchmarkVienna.h
-    src/CostFunction.cpp src/CostFunction.impl.h src/CostFunction.h
+    src/LinearCostFunction.cpp src/CostFunction.impl.h src/LinearCostFunction.h
     src/FeatureNormalize.impl.h src/FeatureNormalize.cpp src/FeatureNormalize.h
     src/FileReader.cpp src/GradientDescent.cpp
     src/LinearRegressionSolver.h src/LinearRegressionSolver.impl.h src/LinearRegressionSolver.cpp

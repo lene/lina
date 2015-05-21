@@ -22,10 +22,10 @@ Utilities::vMatrix Utilities::matrixFixture(const std::string &mat_data) {
     return FileReader::read_matrix<float>(stream);
 }
 
-CostFunction<float> Utilities::costFunctionFixture(const std::string &mat_data, const std::string &vec_data) {
+LinearCostFunction<float> Utilities::costFunctionFixture(const std::string &mat_data, const std::string &vec_data) {
     persistentMatrices_.push_back(matrixFixture(mat_data));
     persistentVectors_.push_back(vectorFixture(vec_data));
-    return CostFunction<float>(persistentMatrices_.back(), persistentVectors_.back());
+    return LinearCostFunction<float>(persistentMatrices_.back(), persistentVectors_.back());
 }
 
 LogisticCostFunction<float> Utilities::logisticCostFunctionFixture(

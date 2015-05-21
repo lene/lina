@@ -12,11 +12,11 @@
 #include <typeinfo>
 
 template<typename Scalar>
-class CostFunction {
+class LinearCostFunction {
 
 public:
 
-    CostFunction(
+    LinearCostFunction(
             const viennacl::matrix<Scalar> &X,
             const viennacl::vector<Scalar> &y
     );
@@ -28,7 +28,7 @@ public:
 
     const viennacl::matrix<Scalar> &X() { return X_; }
 
-    friend std::ostream& operator<<(std::ostream& os, const CostFunction<Scalar>& cost) {
+    friend std::ostream& operator<<(std::ostream& os, const LinearCostFunction<Scalar>& cost) {
         os
 #       ifdef DEBUG_LOGISTIC_REGRESSION
             << typeid(cost).name()

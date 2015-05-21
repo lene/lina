@@ -2,7 +2,7 @@
 // Created by lene on 05.05.15.
 //
 
-#include "CostFunction.h"
+#include "LinearCostFunction.h"
 #include "Utilities.h"
 
 #include <gtest/gtest.h>
@@ -50,25 +50,25 @@ TEST_F(CostFunctionTest, ElementsGetSetUp) {
 }
 
 TEST_F(CostFunctionTest, CostFunctionInitializes) {
-    CostFunction<float> cost(X_, y_);
+    LinearCostFunction<float> cost(X_, y_);
 }
 
 TEST_F(CostFunctionTest, CostFunctionRuns) {
-    CostFunction<float> cost(X_, y_);
+    LinearCostFunction<float> cost(X_, y_);
     cost(theta_);
 }
 
 TEST_F(CostFunctionTest, CostFunctionEvaluates) {
-    CostFunction<float> cost(X_, y_);
+    LinearCostFunction<float> cost(X_, y_);
     ASSERT_FLOAT_EQ(1.f/6.f, cost(theta_));
 }
 
 TEST_F(CostFunctionTest, CostFunctionIdealTheta) {
-    CostFunction<float> cost(X_, y_);
+    LinearCostFunction<float> cost(X_, y_);
     ASSERT_EQ(0.f, cost(Utilities::vectorFixture("2 0 1")));
 }
 
 TEST_F(CostFunctionTest, CostFunctionBadTheta) {
-    CostFunction<float> cost(X_, y_);
+    LinearCostFunction<float> cost(X_, y_);
     ASSERT_LT(cost(theta_), cost(Utilities::vectorFixture("2 0 10")));
 }

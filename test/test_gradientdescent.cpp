@@ -4,7 +4,7 @@
 
 #include "GradientDescent.h"
 #include "Utilities.h"
-#include "CostFunction.h"
+#include "LinearCostFunction.h"
 
 #include <gtest/gtest.h>
 

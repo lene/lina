@@ -40,7 +40,7 @@ private:
     Matrix Xnorm_;
     Matrix Xbias_;
     const Vector &y_;
-    std::shared_ptr<CostFunction<Scalar>> cost_;
+    std::shared_ptr<LinearCostFunction<Scalar>> cost_;
     std::shared_ptr<GradientDescent<Scalar>> grad_;
 };
 

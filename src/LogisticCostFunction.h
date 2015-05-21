@@ -6,10 +6,10 @@
 #define LINA_LOGISTICCOSTFUNCTION_H
 
 
-#include "CostFunction.h"
+#include "LinearCostFunction.h"
 
 template<typename Scalar>
-class LogisticCostFunction: public CostFunction<Scalar> {
+class LogisticCostFunction: public LinearCostFunction<Scalar> {
 
 public:
     LogisticCostFunction(

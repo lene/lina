@@ -5,7 +5,7 @@
 #ifndef LINA_UTILITIES_H
 #define LINA_UTILITIES_H
 
-#include "CostFunction.h"
+#include "LinearCostFunction.h"
 #include "LinearRegressionSolver.h"
 #include "LogisticCostFunction.h"
 
@@ -26,7 +26,7 @@ public:
 
     static vVector vectorFixture(const std::string &vec_data = "3\n0.1 0.2 0.3");
     static vMatrix matrixFixture(const std::string &mat_data = "3 2\n0.1 0.2\n1.0 2.0\n10.0 20.0");
-    static CostFunction<float> costFunctionFixture(
+    static LinearCostFunction<float> costFunctionFixture(
             const std::string &mat_data = "3 2\n0.1 0.2\n1.0 2.0\n10.0 20.0",
             const std::string &vec_data = "3\n0.1 0.2 0.3"
     );

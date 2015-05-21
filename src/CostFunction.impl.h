@@ -5,7 +5,7 @@
 #ifndef LINA_COSTFUNCTION_IMPL_H
 #define LINA_COSTFUNCTION_IMPL_H
 
-#include "CostFunction.h"
+#include "LinearCostFunction.h"
 #include "MatrixPrinter.h"
 #include "VectorPrinter.h"
 
@@ -18,7 +18,7 @@
  *  \param y training examples (y_i = f(X_i))
  */
 template <typename Scalar>
-CostFunction<Scalar>::CostFunction(
+LinearCostFunction<Scalar>::LinearCostFunction(
         const viennacl::matrix<Scalar> &X,
         const viennacl::vector<Scalar> &y): X_(X), y_(y) {
     assert(y_.size() == X_.size1());
@@ -31,7 +31,7 @@ CostFunction<Scalar>::CostFunction(
  */
 template <typename Scalar>
 viennacl::vector<Scalar>
-CostFunction<Scalar>::h_theta(const viennacl::vector<Scalar> &theta) const {
+LinearCostFunction<Scalar>::h_theta(const viennacl::vector<Scalar> &theta) const {
 #   if 0
         std::cout << X_ << theta << std::endl;
 #   endif
@@ -45,7 +45,7 @@ CostFunction<Scalar>::h_theta(const viennacl::vector<Scalar> &theta) const {
  */
 template <typename Scalar>
 viennacl::vector<Scalar>
-CostFunction<Scalar>::deviation(const viennacl::vector<Scalar> &theta) const {
+LinearCostFunction<Scalar>::deviation(const viennacl::vector<Scalar> &theta) const {
     return h_theta(theta) - y_;
 }
 
@@ -55,7 +55,7 @@ CostFunction<Scalar>::deviation(const viennacl::vector<Scalar> &theta) const {
  */
 template <typename Scalar>
 viennacl::scalar<Scalar>
-CostFunction<Scalar>::operator()(const viennacl::vector<Scalar> &theta) const {
+LinearCostFunction<Scalar>::operator()(const viennacl::vector<Scalar> &theta) const {
     viennacl::vector<Scalar> d = deviation(theta);
 #   ifdef DEBUG_LOGISTIC_REGRESSION
     std::cout << "COST(" << theta << ")" << *this << std::endl;
@@ -70,7 +70,7 @@ CostFunction<Scalar>::operator()(const viennacl::vector<Scalar> &theta) const {
  */
 template <typename Scalar>
 viennacl::vector<Scalar>
-CostFunction<Scalar>::gradient(const viennacl::vector<Scalar> &theta) const {
+LinearCostFunction<Scalar>::gradient(const viennacl::vector<Scalar> &theta) const {
     return viennacl::linalg::prod(trans(X_), deviation(theta)) / Scalar(y_.size());
 }
 

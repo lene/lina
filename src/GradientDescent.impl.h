@@ -9,8 +9,8 @@
 #include "GradientDescent.h"
 
 template <typename Scalar>
-GradientDescent<Scalar>::GradientDescent(const CostFunction<Scalar> &function):
-//        func_(std::make_shared<const CostFunction<Scalar>>(&function)),
+GradientDescent<Scalar>::GradientDescent(const LinearCostFunction<Scalar> &function):
+//        func_(std::make_shared<const LinearCostFunction<Scalar>>(&function)),
         func_(&function),
         alpha_(DEFAULT_LEARNING_RATE),
         max_iter_(DEFAULT_NUM_ITER),
