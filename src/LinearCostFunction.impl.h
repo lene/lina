@@ -20,8 +20,7 @@
 template <typename Scalar>
 LinearCostFunction<Scalar>::LinearCostFunction(
         const viennacl::matrix<Scalar> &X,
-        const viennacl::vector<Scalar> &y): CostFunction<Scalar>(X, y) {
-}
+        const viennacl::vector<Scalar> &y): CostFunction<Scalar>(X, y) { }
 
 /**
  *  hypothesis \f$h_\theta(X)\f$
