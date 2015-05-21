@@ -5,7 +5,7 @@
 #ifndef LINA_GRADIENTDESCENT_H
 #define LINA_GRADIENTDESCENT_H
 
-#include <memory>
+//#include <memory>
 #include "LinearCostFunction.h"
 
 template <typename Scalar>

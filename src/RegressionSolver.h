@@ -5,7 +5,9 @@
 #ifndef LINA_LINEARREGRESSIONSOLVER_H
 #define LINA_LINEARREGRESSIONSOLVER_H
 
-#include "GradientDescent.h"
+template <class Scalar> class GradientDescent;
+template <class Scalar> class LinearCostFunction;
+
 #include "CostFunction.h"
 
 #include <viennacl/vector.hpp>

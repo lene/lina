@@ -3,9 +3,14 @@
 //
 
 #include "RegressionSolver.h"
+#include "LinearCostFunction.h"
+#include "LogisticCostFunction.h"
+#include "GradientDescent.h"
 
-template class RegressionSolver<float>;
-template class RegressionSolver<double>;
+template class RegressionSolver<float, LinearCostFunction<float>>;
+template class RegressionSolver<double, LinearCostFunction<double>>;
+//template class RegressionSolver<float, LogisticCostFunction<float>>;
+//template class RegressionSolver<double, LogisticCostFunction<double>>;
 
 #include "FeatureNormalize.h"
 #include "FileReader.h"

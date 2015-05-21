@@ -2,6 +2,7 @@
 #include "Utilities.h"
 #include "FileReader.h"
 #include "FeatureNormalize.h"
+#include "GradientDescent.h"
 
 #include "viennacl/linalg/inner_prod.hpp"
 #include <gtest/gtest.h>

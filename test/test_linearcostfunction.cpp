@@ -13,7 +13,7 @@
 #include <boost/numeric/ublas/matrix.hpp>
 using namespace boost::numeric;
 
-class CostFunctionTest: public ::testing::Test {
+class LinearCostFunctionTest : public ::testing::Test {
 
 protected:
 
@@ -31,11 +31,11 @@ protected:
     const std::string theta_data = "2 0 0";
 };
 
-TEST_F(CostFunctionTest, WorksAtAll) {
+TEST_F(LinearCostFunctionTest, WorksAtAll) {
     ASSERT_TRUE(true);
 }
 
-TEST_F(CostFunctionTest, ElementsGetSetUp) {
+TEST_F(LinearCostFunctionTest, ElementsGetSetUp) {
     ASSERT_EQ(X_(0,0), 1.f);
     ASSERT_EQ(X_(1,0), 1.f);
     ASSERT_EQ(X_(2,0), 1.f);
@@ -49,26 +49,26 @@ TEST_F(CostFunctionTest, ElementsGetSetUp) {
     ASSERT_EQ(viennacl::linalg::inner_prod(theta_, theta_), 0.f);
 }
 
-TEST_F(CostFunctionTest, CostFunctionInitializes) {
+TEST_F(LinearCostFunctionTest, CostFunctionInitializes) {
     LinearCostFunction<float> cost(X_, y_);
 }
 
-TEST_F(CostFunctionTest, CostFunctionRuns) {
+TEST_F(LinearCostFunctionTest, CostFunctionRuns) {
     LinearCostFunction<float> cost(X_, y_);
     cost.cost(theta_);
 }
 
-TEST_F(CostFunctionTest, CostFunctionEvaluates) {
+TEST_F(LinearCostFunctionTest, CostFunctionEvaluates) {
     LinearCostFunction<float> cost(X_, y_);
     ASSERT_FLOAT_EQ(1.f/6.f, cost.cost(theta_));
 }
 
-TEST_F(CostFunctionTest, CostFunctionIdealTheta) {
+TEST_F(LinearCostFunctionTest, CostFunctionIdealTheta) {
     LinearCostFunction<float> cost(X_, y_);
     ASSERT_EQ(0.f, cost.cost(Utilities::vectorFixture("2 0 1")));
 }
 
-TEST_F(CostFunctionTest, CostFunctionBadTheta) {
+TEST_F(LinearCostFunctionTest, CostFunctionBadTheta) {
     LinearCostFunction<float> cost(X_, y_);
     ASSERT_LT(cost.cost(theta_), cost.cost(Utilities::vectorFixture("2 0 10")));
 }

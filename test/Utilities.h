@@ -38,6 +38,10 @@ public:
             const std::string &mat_data = "3 2\n0.1 0.2\n1.0 2.0\n10.0 20.0",
             const std::string &vec_data = "3\n0.1 0.2 0.3"
     );
+    static RegressionSolver<float, LogisticCostFunction<float>> logisticRegressionSolverFixture(
+            const std::string &mat_data = "3 2\n0.1 0.2\n1.0 2.0\n10.0 20.0",
+            const std::string &vec_data = "3\n0.1 0.2 0.3"
+    );
 
 
 private:

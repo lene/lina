@@ -25,7 +25,7 @@ set(LIBS "${LIBS} -L/opt/AMDAPPSDK-2.9-1/lib/x86_64 -lOpenCL")
 add_executable(
     lina_test
     test/tests.cpp test/Utilities.cpp test/Utilities.h
-    test/test_costfunction.cpp test/test_filereader.cpp test/test_featurenormalize.cpp
+    test/test_linearcostfunction.cpp test/test_filereader.cpp test/test_featurenormalize.cpp
     test/test_gradientdescent.cpp test/test_linearregressionsolver.cpp
     test/test_logisticcostfunction.cpp
     src/LinearCostFunction.h src/LinearCostFunction.cpp
