@@ -27,6 +27,7 @@ public:
 
     using CostFunction<Scalar>::X;
     using CostFunction<Scalar>::y;
+    using CostFunction<Scalar>::deviation;
 
 private:
     viennacl::vector<Scalar> one_;

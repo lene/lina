@@ -45,22 +45,15 @@ viennacl::scalar<Scalar> LogisticCostFunction<Scalar>::operator()(const viennacl
 
     viennacl::vector<Scalar> htheta = h_theta(theta);
     viennacl::scalar<Scalar> c1 = -inner_prod(y(), element_log(htheta));
-    viennacl::vector<Scalar> one_y = one_ - y();
-    viennacl::vector<Scalar> one_htheta = element_log(one_ - htheta);
-    viennacl::scalar<Scalar> c2 = -inner_prod(one_y, one_htheta);
-    auto ret = (c1+c2)/Scalar(y().size());
-#   ifdef DEBUG_LOGISTIC_REGRESSION
-    std::cout<< *this << " *** cost(" << theta << ") = " << ret << std::endl;
-#   endif
-    return ret;
+    viennacl::scalar<Scalar> c2 = -inner_prod(one_ - y(), element_log(one_ - htheta));
+
+    return (c1+c2)/Scalar(y().size());
 }
 
 template<typename Scalar>
 viennacl::vector<Scalar> LogisticCostFunction<Scalar>::gradient(const viennacl::vector<Scalar> &theta) const {
     // (h_theta-y)'*X/m
-    viennacl::vector<Scalar> deviation = h_theta(theta)- y();
-    return prod(trans(X()), deviation)/ y().size();
-//    return trans(LinearCostFunction<Scalar>::X_) * deviation/LinearCostFunction<Scalar>::y_.size();
+    return prod(trans(X()), deviation(theta))/ y().size();
 }
 
 #endif //LINA_LOGISTICCOSTFUNCTION_IMPL_H

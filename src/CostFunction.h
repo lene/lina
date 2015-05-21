@@ -22,6 +22,8 @@ public:
     virtual viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const = 0;
     virtual viennacl::vector<Scalar> gradient(const viennacl::vector<Scalar> &theta) const = 0;
 
+    viennacl::vector<Scalar> deviation(const viennacl::vector<Scalar> &theta) const;
+
     const viennacl::matrix<Scalar> &X() const { return X_; }
     const viennacl::vector<Scalar> &y() const { return y_; }
 

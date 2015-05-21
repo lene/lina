@@ -38,16 +38,6 @@ LinearCostFunction<Scalar>::h_theta(const viennacl::vector<Scalar> &theta) const
 }
 
 /**
- *  How far hypothesis \f$h_\theta(X)\f$ misses training examples \f$y\f$
- *  \param theta
- */
-template <typename Scalar>
-viennacl::vector<Scalar>
-LinearCostFunction<Scalar>::deviation(const viennacl::vector<Scalar> &theta) const {
-    return h_theta(theta) - y();
-}
-
-/**
  *  cost function for given \f$\theta\f$
  *  \param theta
  */

@@ -23,12 +23,13 @@ public:
     );
 
     virtual viennacl::vector<Scalar> h_theta(const viennacl::vector<Scalar> &theta) const;
-    viennacl::vector<Scalar> deviation(const viennacl::vector<Scalar> &theta) const;
     virtual viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const;
     virtual viennacl::vector<Scalar> gradient(const viennacl::vector<Scalar> &theta) const;
 
     using CostFunction<Scalar>::X;
     using CostFunction<Scalar>::y;
+    using CostFunction<Scalar>::deviation;
+
 };
 
 #endif //LINA_COSTFUNCTION_H
