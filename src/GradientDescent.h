@@ -15,8 +15,14 @@ class GradientDescent {
 
 public:
 
-    const unsigned DEFAULT_NUM_ITER = 10000;
-    const Scalar DEFAULT_LEARNING_RATE = 1;
+    static constexpr unsigned DEFAULT_NUM_ITER = 10000;
+    static constexpr Scalar DEFAULT_LEARNING_RATE = Scalar(1);
+    /**
+     *  Scaling up is done by a smaller factor than scaling down (let's not get too enthusiastic!).
+     *  Choose the scale up and down factors to be mutually prime to avoid cycles.
+     */
+    static constexpr Scalar DEFAULT_SCALE_STEP_UP_FACTOR = Scalar(1.2);
+    static constexpr Scalar DEFAULT_SCALE_STEP_DOWN_FACTOR = Scalar(2.0);
 
     GradientDescent(const CostFunction<Scalar> &function);
 
@@ -59,13 +65,6 @@ private:
     Scalar scale_step_down_factor_;
 
     bool skip_convergence_test_;
-
-    /**
-     *  Scaling up is done by a smaller factor than scaling down (let's not get too enthusiastic!).
-     *  Choose the scale up and down factors to be mutually prime to avoid cycles.
-     */
-    static constexpr Scalar DEFAULT_SCALE_STEP_UP_FACTOR = Scalar(1.2);
-    static constexpr Scalar DEFAULT_SCALE_STEP_DOWN_FACTOR = Scalar(2.0);
 
 };
 

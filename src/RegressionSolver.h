@@ -6,9 +6,8 @@
 #define LINA_LINEARREGRESSIONSOLVER_H
 
 template <class Scalar> class GradientDescent;
+template <class Scalar> class CostFunction;
 template <class Scalar> class LinearCostFunction;
-
-#include "CostFunction.h"
 
 #include <viennacl/vector.hpp>
 #include <viennacl/matrix.hpp>
@@ -26,9 +25,8 @@ protected:
     typedef viennacl::matrix<Scalar> Matrix;
 
 public:
-    RegressionSolver(
-            const Matrix &X, const Vector &y
-    );
+
+    RegressionSolver(const Matrix &X, const Vector &y);
 
     bool optimize(const Vector &theta);
     viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const;
@@ -46,8 +44,10 @@ private:
     Matrix Xnorm_;
     Matrix Xbias_;
     const Vector &y_;
-    std::shared_ptr<LinearCostFunction<Scalar>> cost_;
+
+    std::shared_ptr<CostFunction<Scalar>> cost_;
     std::shared_ptr<GradientDescent<Scalar>> grad_;
+
 };
 
 

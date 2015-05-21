@@ -9,8 +9,8 @@
 
 template class RegressionSolver<float, LinearCostFunction<float>>;
 template class RegressionSolver<double, LinearCostFunction<double>>;
-//template class RegressionSolver<float, LogisticCostFunction<float>>;
-//template class RegressionSolver<double, LogisticCostFunction<double>>;
+template class RegressionSolver<float, LogisticCostFunction<float>>;
+template class RegressionSolver<double, LogisticCostFunction<double>>;
 
 #include "FeatureNormalize.h"
 #include "FileReader.h"
