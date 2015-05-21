@@ -24,8 +24,7 @@ bool GradientDescent<Scalar>::optimize(const viennacl::vector<Scalar> &initial_g
         updateHistory();
         if (hasConverged()) return true;
         adjustLearningRate();
-        viennacl::vector<Scalar> temp = func_->gradient(theta_);
-        theta_ -= alpha_*temp;
+        theta_ -= alpha_* func_->gradient(theta_);
     }
     return false;
 }

@@ -58,17 +58,19 @@ TEST_F(RegressionSolverTest, LogisticSolverInstantiated) {
 }
 
 
-TEST_F(RegressionSolverTest, GradientDescentSimple1) {
-    auto solver = Utilities::logisticRegressionSolverFixture("1 1 1", "1 0");
-    solver.optimize(Utilities::vectorFixture("1 0"));
+TEST_F(RegressionSolverTest, DISABLED_GradientDescentSimple1) {
+    auto solver = Utilities::logisticRegressionSolverFixture("1 1 0", "1 0");
+    solver.optimize(Utilities::vectorFixture("2 0 0"));
+    std::cout << solver.minTheta() << std::endl;
     // optimal theta should be minus infinity, but due to the flat function let's say it's < -10.
     ASSERT_LT(solver.minTheta()(0), -10);
     ASSERT_NEAR(solver(solver.minTheta()), 0, 1e-6);
 }
 
-TEST_F(RegressionSolverTest, GradientDescentSimple2) {
-    auto solver = Utilities::logisticRegressionSolverFixture("1 1 1", "1 1");
-    solver.optimize(Utilities::vectorFixture("1 0"));
+TEST_F(RegressionSolverTest, DISABLED_GradientDescentSimple2) {
+    auto solver = Utilities::logisticRegressionSolverFixture("1 1 0", "1 1");
+    solver.optimize(Utilities::vectorFixture("2 0 0"));
+    std::cout << solver.minTheta() << std::endl;
     // optimal theta should be infinity, but due to the flat function let's say it's > 10.
     ASSERT_GT(solver.minTheta()(0), 10);
     ASSERT_NEAR(solver(solver.minTheta()), 0, 1e-6);
@@ -76,18 +78,17 @@ TEST_F(RegressionSolverTest, GradientDescentSimple2) {
 
 TEST_F(RegressionSolverTest, GradientDescentSimple3) {
     auto solver = Utilities::logisticRegressionSolverFixture("2 1 0 1", "2 0 1");
-    solver.optimize(Utilities::vectorFixture("1 0"));
+    solver.optimize(Utilities::vectorFixture("2 0 0"));
     // optimal theta should be infinity, but due to the flat function let's say it's > 10.
-    ASSERT_GT(solver.minTheta()(0), 10);
-//    ASSERT_NEAR(solver(solver.minTheta()), 0, 1e-6);
+    ASSERT_GT(solver.minTheta()(1), 10);
+    ASSERT_NEAR(solver(solver.minTheta()), 0, 1e-6);
 }
 
 TEST_F(RegressionSolverTest, GradientDescentSimple4) {
     auto solver = Utilities::logisticRegressionSolverFixture("2 1 0 1", "2 1 0");
-    solver.optimize(Utilities::vectorFixture("1 0"));
-//    debugOptimization(grad, cost);
-
+    solver.optimize(Utilities::vectorFixture("2 0 0"));
+    std::cout << solver.minTheta() << std::endl;
     // optimal theta should be minus infinity, but due to the flat function let's say it's < -10.
-    ASSERT_LT(solver.minTheta()(0), -10);
-//    ASSERT_NEAR(solver(solver.minTheta()), 0, 1e-6);
+    ASSERT_LT(solver.minTheta()(1), -10);
+    ASSERT_NEAR(solver(solver.minTheta()), 0, 1e-6);
 }
