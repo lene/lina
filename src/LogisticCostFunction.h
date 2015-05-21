@@ -25,6 +25,9 @@ public:
 
     virtual viennacl::vector<Scalar> gradient(const viennacl::vector<Scalar> &theta) const override;
 
+    using CostFunction<Scalar>::X;
+    using CostFunction<Scalar>::y;
+
 private:
     viennacl::vector<Scalar> one_;
 

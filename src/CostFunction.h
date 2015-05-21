@@ -19,11 +19,11 @@ public:
     );
 
     virtual viennacl::vector<Scalar> h_theta(const viennacl::vector<Scalar> &theta) const = 0;
-    viennacl::vector<Scalar> deviation(const viennacl::vector<Scalar> &theta) const;
     virtual viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const = 0;
     virtual viennacl::vector<Scalar> gradient(const viennacl::vector<Scalar> &theta) const = 0;
 
-    const viennacl::matrix<Scalar> &X() { return X_; }
+    const viennacl::matrix<Scalar> &X() const { return X_; }
+    const viennacl::vector<Scalar> &y() const { return y_; }
 
     friend std::ostream& operator<<(std::ostream& os, const CostFunction<Scalar>& cost) {
         os
@@ -34,7 +34,7 @@ public:
         return os;
     }
 
-protected:
+private:
     const viennacl::matrix<Scalar> &X_;
     const viennacl::vector<Scalar> &y_;
 

@@ -27,17 +27,8 @@ public:
     virtual viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const;
     virtual viennacl::vector<Scalar> gradient(const viennacl::vector<Scalar> &theta) const;
 
-    const viennacl::matrix<Scalar> &X() { return CostFunction<Scalar>::X_; }
-
-    friend std::ostream& operator<<(std::ostream& os, const LinearCostFunction<Scalar>& cost) {
-        os
-#       ifdef DEBUG_LOGISTIC_REGRESSION
-            << typeid(cost).name()
-#       endif
-          << cost.X_ << cost.y_;
-        return os;
-    }
-
+    using CostFunction<Scalar>::X;
+    using CostFunction<Scalar>::y;
 };
 
 #endif //LINA_COSTFUNCTION_H
