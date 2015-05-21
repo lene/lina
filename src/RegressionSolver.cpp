@@ -10,6 +10,11 @@ template class RegressionSolver<double>;
 #include "FeatureNormalize.h"
 #include "FileReader.h"
 
+/**
+ *  Encapsulates routines to set up and solve linear or logistic regression
+ *  \tparam Scalar numeric type used (\c float or \c double)
+ *  \tparam Function type of cost function used (implementation of \c CostFunction)
+ */
 template <typename Scalar, typename Function>
 RegressionSolver<Scalar, Function>::RegressionSolver(const Matrix &X, const Vector &y):
         X_(X), y_(y), Xnorm_(X.size1(), X.size2()), Xbias_(X.size1(), X.size2()+1) {

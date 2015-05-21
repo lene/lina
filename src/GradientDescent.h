@@ -10,6 +10,9 @@
 
 template <typename Scalar>
 class GradientDescent {
+
+    static_assert(std::is_floating_point<Scalar>::value, "Scalar is not a floating point type");
+
 public:
 
     const unsigned DEFAULT_NUM_ITER = 10000;

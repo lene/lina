@@ -12,15 +12,17 @@
 #include <boost/numeric/ublas/matrix.hpp>
 using namespace boost::numeric;
 
-template <typename ScalarType>
+template <typename Scalar>
 struct BenchmarkVienna {
+
+    static_assert(std::is_floating_point<Scalar>::value, "Scalar is not a floating point type");
 
     int run(unsigned matrix_size);
 
 private:
     template <typename orientation>
-    bool is_equal(const ublas::matrix<ScalarType, orientation> &A,
-                  const ublas::matrix<ScalarType, orientation> &B);
+    bool is_equal(const ublas::matrix<Scalar, orientation> &A,
+                  const ublas::matrix<Scalar, orientation> &B);
 
 };
 

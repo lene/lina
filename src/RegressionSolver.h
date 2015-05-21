@@ -6,6 +6,7 @@
 #define LINA_LINEARREGRESSIONSOLVER_H
 
 #include "GradientDescent.h"
+#include "CostFunction.h"
 
 #include <viennacl/vector.hpp>
 #include <viennacl/matrix.hpp>
@@ -14,6 +15,9 @@
 
 template <typename Scalar, typename Function = LinearCostFunction<Scalar>>
 class RegressionSolver {
+
+    static_assert(std::is_floating_point<Scalar>::value, "Scalar is not a floating point type");
+    static_assert(std::is_base_of<CostFunction<Scalar>, Function>::value, "Function does not implement CostFunction");
 
 protected:
     typedef viennacl::vector<Scalar> Vector;

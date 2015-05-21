@@ -11,6 +11,8 @@
 template<typename Scalar>
 class CostFunction {
 
+    static_assert(std::is_floating_point<Scalar>::value, "Scalar is not a floating point type");
+
 public:
 
     CostFunction(

@@ -18,6 +18,9 @@ using namespace boost::numeric;
 
 template <typename Scalar>
 class FeatureNormalize {
+
+    static_assert(std::is_floating_point<Scalar>::value, "Scalar is not a floating point type");
+
 public:
     FeatureNormalize(const viennacl::matrix<Scalar> &X);
 
