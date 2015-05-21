@@ -29,22 +29,22 @@ YMMV, packages to install depend on present GPU:
 
 ## To do
 
+* improve RegressionSolver
+  * make the kind of regression a class template parameter
+  * add predict() function
+  * add function to determine training accuracy
+* use smart pointers again (in gradient descent)
+* phase out operator() in cost functions
 * logistic regression
-  * minimization
-    * gradient descent does not give same result as coursera example. debugging approaches:
-      * normalized and unnormalized results different
-      * cost in history differs from cost as applied to result
-      * debug octave code
-        * use gradient descent instead of fminunc, log steps
-      * setup simple system with known result, see what works
-  * apply to coursera example
+  * minimization - is there a better way than gradient descent? does GD always give so bad results in nontrivial systems?
   * training accuracy
   * regularization
     * coursera example
   * multi-class classification
 * ensure that only one matrix is stored in GPU memory at each time when using LinearRegressionSolver
+* gradient descent seems to run on one CPU core only, at least with logistic regression
 * factor out matrix and vector types so they can be used as template parameters
   * easier conversion between ublas and viennacl data types and algorithms?
 * neural networks
-* compile conditionally on presence of gtest
+* compile conditionally on presence of gtest so that it can be distributed without it
 
