@@ -13,14 +13,14 @@
 #include <memory>
 
 template <typename Scalar>
-class LinearRegressionSolver {
+class RegressionSolver {
 
 protected:
     typedef viennacl::vector<Scalar> Vector;
     typedef viennacl::matrix<Scalar> Matrix;
 
 public:
-    LinearRegressionSolver(
+    RegressionSolver(
             const Matrix &X, const Vector &y
     );
 

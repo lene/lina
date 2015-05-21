@@ -1,7 +1,7 @@
 # lina
 Linear Algebra library in C++ and OpenCL for machine learning algorithms.
 GPU-accelerated routines for multidimensional optimization, linear regression,
-later: logistic regression and neural networks. Even later: SVM and recommender systems. 
+logistic regression. Later: neural networks. Even later: SVM and recommender systems. 
 
 ## Dependencies:
 

@@ -4,7 +4,7 @@
 #include "GradientDescent.h"
 #include "VectorPrinter.h"
 #include "BenchmarkVienna.h"
-#include "LinearRegressionSolver.h"
+#include "RegressionSolver.h"
 
 #include <sstream>
 
@@ -35,7 +35,7 @@ const std::string testvector ="47 \
 
 Vector optimalTheta(const Matrix &X, const Vector &y) {
 
-    LinearRegressionSolver<Scalar> L(X, y);
+    RegressionSolver<Scalar> L(X, y);
 
     auto Xbias = L.Xbias();
 

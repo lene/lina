@@ -6,7 +6,7 @@
 #define LINA_UTILITIES_H
 
 #include "LinearCostFunction.h"
-#include "LinearRegressionSolver.h"
+#include "RegressionSolver.h"
 #include "LogisticCostFunction.h"
 
 #include <viennacl/matrix.hpp>
@@ -34,7 +34,7 @@ public:
             const std::string &mat_data = "3 2\n0.1 0.2\n1.0 2.0\n10.0 20.0",
             const std::string &vec_data = "3\n0 1 0"
     );
-    static LinearRegressionSolver<float> linearRegressionSolverFixture(
+    static RegressionSolver<float> linearRegressionSolverFixture(
             const std::string &mat_data = "3 2\n0.1 0.2\n1.0 2.0\n10.0 20.0",
             const std::string &vec_data = "3\n0.1 0.2 0.3"
     );

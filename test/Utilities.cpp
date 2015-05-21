@@ -36,11 +36,11 @@ LogisticCostFunction<float> Utilities::logisticCostFunctionFixture(
     return LogisticCostFunction<float>(persistentMatrices_.back(), persistentVectors_.back());
 }
 
-LinearRegressionSolver<float> Utilities::linearRegressionSolverFixture(
+RegressionSolver<float> Utilities::linearRegressionSolverFixture(
         const std::string &mat_data, const std::string &vec_data
 ) {
     persistentMatrices_.push_back(matrixFixture(mat_data));
     persistentVectors_.push_back(vectorFixture(vec_data));
-    return LinearRegressionSolver<float>(persistentMatrices_.back(), persistentVectors_.back());
+    return RegressionSolver<float>(persistentMatrices_.back(), persistentVectors_.back());
 }
 

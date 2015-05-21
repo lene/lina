@@ -1,4 +1,4 @@
-#include "LinearRegressionSolver.h"
+#include "RegressionSolver.h"
 #include "Utilities.h"
 
 #include <gtest/gtest.h>

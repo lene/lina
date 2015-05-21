@@ -15,11 +15,7 @@ GradientDescent<Scalar>::GradientDescent(const CostFunction<Scalar> &function):
         max_iter_(DEFAULT_NUM_ITER),
         iter_(0), history_(),
         scale_step_up_factor_(DEFAULT_SCALE_STEP_UP_FACTOR), scale_step_down_factor_(DEFAULT_SCALE_STEP_DOWN_FACTOR),
-        skip_convergence_test_(false) {
-#   ifdef DEBUG_LOGISTIC_REGRESSION
-    std::cout << "GradientDescent(" << *func_ << ")" << std::endl;
-#   endif
-}
+        skip_convergence_test_(false) { }
 
 template <typename Scalar>
 bool GradientDescent<Scalar>::optimize(const viennacl::vector<Scalar> &initial_guess) {
@@ -42,9 +38,6 @@ template <typename Scalar>
 void GradientDescent<Scalar>::adjustLearningRate() {
     if (history_.back().second > history_[history_.size()-2].second) alpha_ /= scale_step_down_factor_;
     else alpha_ *= scale_step_up_factor_;
-#   if 0
-    if (iter_%1000 == 0) std::cout << iter_ << " " << alpha_ << std::endl;
-#   endif
 }
 
 template <typename Scalar>
