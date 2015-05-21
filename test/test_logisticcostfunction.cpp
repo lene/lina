@@ -3,6 +3,7 @@
 #include "FileReader.h"
 #include "FeatureNormalize.h"
 
+#include "viennacl/linalg/inner_prod.hpp"
 #include <gtest/gtest.h>
 
 #define DEBUG_LOGISTIC_REGRESSION 1
@@ -142,7 +143,9 @@ TEST_F(LogisticCostFunctionTest, GradientCourseData) {
 void debugOptimization(const GradientDescent<float> &grad, const CostFunction<float> &cost) {
     std::cout << "theta min: " << grad.getMinimum() << " cost: " << cost(grad.getMinimum())
               << " iterations: " << grad.getHistory().size() << ": "<< std::endl;
-    for (auto c: grad.getHistory()) std::cout << c.first << ": " << c.second << std::endl;
+    for (int i = 0; i < std::min(int(grad.getHistory().size()), 10); ++i) std::cout << grad.getHistory()[i].first << ": " << grad.getHistory()[i].second << std::endl;
+    std::cout << "   ..." << std::endl;
+    for (int i = grad.getHistory().size()-10; i < grad.getHistory().size(); ++i) std::cout << grad.getHistory()[i].first << ": " << grad.getHistory()[i].second << std::endl;
 }
 
 TEST_F(LogisticCostFunctionTest, DISABLED_GradientDescentUnnormalized) {
@@ -153,11 +156,17 @@ TEST_F(LogisticCostFunctionTest, DISABLED_GradientDescentUnnormalized) {
 
     auto cost = LogisticCostFunction<float>(M, y);
     auto grad = GradientDescent<float>(cost);
-    grad.setLearningRate(0.005);
+    grad.setLearningRate(0.001);
+    grad.setMaxIter(10000);
+    grad.setScaleStepUpFactor(1.005);
+    grad.setScaleStepDownFactor(1.02);
+    grad.setSkipConvergenceTest(true);
     grad.optimize(Utilities::vectorFixture("3 0 0 0"));
 
     std::cout << "********** UNNORMALIZED **********" << std::endl;
-    debugOptimization(grad, cost);
+//    debugOptimization(grad, cost);
+    auto probability = sigmoid(viennacl::linalg::inner_prod(grad.getMinimum(), Utilities::vectorFixture("3 1 45 85")));
+    std::cout << "theta min: " << grad.getMinimum() << " cost: " << cost(grad.getMinimum()) << " probability: " << probability << std::endl;
 
     ASSERT_NEAR(-25.16, grad.getMinimum()(0), 0.01);
     ASSERT_NEAR(  0.20, grad.getMinimum()(1), 0.01);
@@ -183,6 +192,21 @@ TEST_F(LogisticCostFunctionTest, DISABLED_GradientDescentNormalized) {
     debugOptimization(grad, cost);
 }
 
+TEST_F(LogisticCostFunctionTest, AdmissionProbability) {
+    auto X = Utilities::matrixFixture(X_from_course_);
+    auto M = FileReader::add_bias_column<float>(X);
+    auto y = Utilities::vectorFixture(y_from_course_);
+
+    auto cost = LogisticCostFunction<float>(M, y);
+    auto grad = GradientDescent<float>(cost);
+    grad.setLearningRate(0.001);
+    grad.optimize(Utilities::vectorFixture("3 0 0 0"));
+
+    auto theta = grad.getMinimum();
+    auto probability = sigmoid(viennacl::linalg::inner_prod(theta, Utilities::vectorFixture("3 1 45 85")));
+    std::cout << probability << std::endl;
+}
+
 TEST_F(LogisticCostFunctionTest, GradientDescentSimple1) {
     auto cost = Utilities::logisticCostFunctionFixture("1 1 1", "1 0");
     auto grad = GradientDescent<float>(cost);
@@ -205,7 +229,7 @@ TEST_F(LogisticCostFunctionTest, GradientDescentSimple3) {
     auto cost = Utilities::logisticCostFunctionFixture("2 1 0 1", "2 0 1");
     auto grad = GradientDescent<float>(cost);
     grad.optimize(Utilities::vectorFixture("1 0"));
-    debugOptimization(grad, cost);
+//    debugOptimization(grad, cost);
 
     // optimal theta should be infinity, but due to the flat function let's say it's > 10.
     ASSERT_GT(grad.getMinimum()(0), 10);
@@ -216,7 +240,7 @@ TEST_F(LogisticCostFunctionTest, GradientDescentSimple4) {
     auto cost = Utilities::logisticCostFunctionFixture("2 1 0 1", "2 1 0");
     auto grad = GradientDescent<float>(cost);
     grad.optimize(Utilities::vectorFixture("1 0"));
-    debugOptimization(grad, cost);
+//    debugOptimization(grad, cost);
 
     // optimal theta should be minus infinity, but due to the flat function let's say it's < -10.
     ASSERT_LT(grad.getMinimum()(0), -10);
