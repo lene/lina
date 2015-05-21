@@ -39,16 +39,16 @@ set(
     SOURCE_FILES
     src/main.cpp src/Timer.cpp src/Timer.h src/RandomFiller.cpp src/RandomFiller.h
     src/FileReader.impl.h src/FileReader.h src/MatrixPrinter.h  src/VectorPrinter.h
-    src/GradientDescent.impl.h src/GradientDescent.h
+    src/GradientDescent.h
 )
 add_executable(
     lina ${SOURCE_FILES}
-    src/BenchmarkVienna.cpp src/BenchmarkVienna.impl.h src/BenchmarkVienna.h
-    src/LinearCostFunction.cpp src/LinearCostFunction.impl.h src/LinearCostFunction.h
-    src/FeatureNormalize.impl.h src/FeatureNormalize.cpp src/FeatureNormalize.h
+    src/BenchmarkVienna.cpp src/BenchmarkVienna.h
+    src/LinearCostFunction.cpp src/LinearCostFunction.h
+    src/FeatureNormalize.cpp src/FeatureNormalize.h
     src/FileReader.cpp src/GradientDescent.cpp
-    src/LinearRegressionSolver.h src/LinearRegressionSolver.impl.h src/LinearRegressionSolver.cpp
-    src/LogisticCostFunction.cpp src/LogisticCostFunction.h src/LogisticCostFunction.impl.h src/CostFunction.cpp src/CostFunction.h)
+    src/LinearRegressionSolver.h src/LinearRegressionSolver.cpp
+    src/LogisticCostFunction.cpp src/LogisticCostFunction.h src/CostFunction.cpp src/CostFunction.h)
 # also, fuck the attempt above. in fact, fuck CMake.
 target_link_libraries (lina -L/opt/AMDAPPSDK-2.9-1/lib/x86_64 -lOpenCL)
 
