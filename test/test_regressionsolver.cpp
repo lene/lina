@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 
-class LinearRegressionSolverTest : public ::testing::Test {
+class RegressionSolverTest : public ::testing::Test {
 protected:
     const std::string simple_X_ = "3 2 1 1 .1 0 1 0";
     const std::string simple_y_ = "3 1 0 0";
@@ -24,12 +24,12 @@ protected:
     const float thetamin_[3] = { 340413., 109448., -6578.35 };
 };
 
-TEST_F(LinearRegressionSolverTest, ConvergesOnSimpleSystem) {
+TEST_F(RegressionSolverTest, ConvergesOnSimpleSystem) {
     auto solver = Utilities::linearRegressionSolverFixture(simple_X_, simple_y_);
     ASSERT_TRUE(solver.optimize(Utilities::vectorFixture("3 0 0 0")));
 }
 
-TEST_F(LinearRegressionSolverTest, SolvesSimpleSystem) {
+TEST_F(RegressionSolverTest, SolvesSimpleSystem) {
     auto solver = Utilities::linearRegressionSolverFixture(simple_X_, simple_y_);
     solver.optimize(Utilities::vectorFixture("3 0 0 0"));
     auto theta = solver.minTheta();
@@ -38,17 +38,56 @@ TEST_F(LinearRegressionSolverTest, SolvesSimpleSystem) {
             ASSERT_NEAR(Utilities::vectorFixture("3 0.333 0 0.471")(i), theta(i), 1e-3);
 }
 
-TEST_F(LinearRegressionSolverTest, SimpleSystemConvergesToCostZero) {
+TEST_F(RegressionSolverTest, SimpleSystemConvergesToCostZero) {
     auto solver = Utilities::linearRegressionSolverFixture(simple_X_, simple_y_);
     solver.optimize(Utilities::vectorFixture("3 0 0 0"));
     auto theta = solver.minTheta();
     ASSERT_EQ(0, solver(theta));
 }
 
-TEST_F(LinearRegressionSolverTest, CourseraData) {
+TEST_F(RegressionSolverTest, CourseraData) {
     auto solver = Utilities::linearRegressionSolverFixture(coursera_X_, coursera_y_);
     solver.optimize(Utilities::vectorFixture("3 0 0 0"));
     auto theta = solver.minTheta();
     for (auto i = 0; i < 3; ++i)
         ASSERT_NEAR(thetamin_[i], theta(i), 1.);
+}
+
+TEST_F(RegressionSolverTest, LogisticSolverInstantiated) {
+    auto solver = Utilities::logisticRegressionSolverFixture("1 1 1", "1 1");
+}
+
+
+TEST_F(RegressionSolverTest, GradientDescentSimple1) {
+    auto solver = Utilities::logisticRegressionSolverFixture("1 1 1", "1 0");
+    solver.optimize(Utilities::vectorFixture("1 0"));
+    // optimal theta should be minus infinity, but due to the flat function let's say it's < -10.
+    ASSERT_LT(solver.minTheta()(0), -10);
+    ASSERT_NEAR(solver(solver.minTheta()), 0, 1e-6);
+}
+
+TEST_F(RegressionSolverTest, GradientDescentSimple2) {
+    auto solver = Utilities::logisticRegressionSolverFixture("1 1 1", "1 1");
+    solver.optimize(Utilities::vectorFixture("1 0"));
+    // optimal theta should be infinity, but due to the flat function let's say it's > 10.
+    ASSERT_GT(solver.minTheta()(0), 10);
+    ASSERT_NEAR(solver(solver.minTheta()), 0, 1e-6);
+}
+
+TEST_F(RegressionSolverTest, GradientDescentSimple3) {
+    auto solver = Utilities::logisticRegressionSolverFixture("2 1 0 1", "2 0 1");
+    solver.optimize(Utilities::vectorFixture("1 0"));
+    // optimal theta should be infinity, but due to the flat function let's say it's > 10.
+    ASSERT_GT(solver.minTheta()(0), 10);
+//    ASSERT_NEAR(solver(solver.minTheta()), 0, 1e-6);
+}
+
+TEST_F(RegressionSolverTest, GradientDescentSimple4) {
+    auto solver = Utilities::logisticRegressionSolverFixture("2 1 0 1", "2 1 0");
+    solver.optimize(Utilities::vectorFixture("1 0"));
+//    debugOptimization(grad, cost);
+
+    // optimal theta should be minus infinity, but due to the flat function let's say it's < -10.
+    ASSERT_LT(solver.minTheta()(0), -10);
+//    ASSERT_NEAR(solver(solver.minTheta()), 0, 1e-6);
 }

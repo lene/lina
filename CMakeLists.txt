@@ -26,7 +26,7 @@ add_executable(
     lina_test
     test/tests.cpp test/Utilities.cpp test/Utilities.h
     test/test_linearcostfunction.cpp test/test_filereader.cpp test/test_featurenormalize.cpp
-    test/test_gradientdescent.cpp test/test_linearregressionsolver.cpp
+    test/test_gradientdescent.cpp test/test_regressionsolver.cpp
     test/test_logisticcostfunction.cpp
     src/LinearCostFunction.h src/LinearCostFunction.cpp
     src/FeatureNormalize.cpp src/FeatureNormalize.h
