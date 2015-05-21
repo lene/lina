@@ -29,7 +29,7 @@ bool LinearRegressionSolver<Scalar>::optimize(const Vector &theta) {
 
 template <typename Scalar>
 viennacl::scalar<Scalar> LinearRegressionSolver<Scalar>::operator()(const viennacl::vector<Scalar> &theta) const {
-    return cost_->operator()(theta);
+    return cost_->cost(theta);
 }
 
 template <typename Scalar>

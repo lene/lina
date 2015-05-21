@@ -40,7 +40,7 @@ TEST_F(GradDescTest, SimpleSystemConvergesToCostZero) {
     GradientDescent<float> grad(cost);
     grad.optimize(Utilities::vectorFixture("2 0 0"));
     auto theta = grad.getMinimum();
-    ASSERT_EQ(0, cost(theta));
+    ASSERT_EQ(0, cost.cost(theta));
 }
 
 TEST_F(GradDescTest, IterationsAreOneLessThanHistorySizeCauseTheyStartAtZero) {
@@ -73,7 +73,7 @@ TEST_F(GradDescTest, ConvergesImmediatelyOnCorrectGuess) {
     GradientDescent<float> grad(cost);
     grad.optimize(Utilities::vectorFixture("2 0 1"));
     auto theta = grad.getMinimum();
-    ASSERT_EQ(0, cost(theta));
+    ASSERT_EQ(0, cost.cost(theta));
     for (auto x: grad.getHistory()) ASSERT_EQ(0, x.second);
 }
 
@@ -83,7 +83,7 @@ TEST_F(GradDescTest, DoesNotConvergeIfMaxIterTooLow) {
     grad.setMaxIter(5);
     ASSERT_FALSE(grad.optimize(Utilities::vectorFixture("2 0 0")));
     auto theta = grad.getMinimum();
-    ASSERT_NE(0, cost(theta));
+    ASSERT_NE(0, cost.cost(theta));
 }
 
 TEST_F(GradDescTest, CanRestartIfNotConverged) {
@@ -93,5 +93,5 @@ TEST_F(GradDescTest, CanRestartIfNotConverged) {
     grad.optimize(Utilities::vectorFixture("2 0 0"));
     auto theta = grad.getMinimum();
     grad.optimize(theta);
-    ASSERT_LT(cost(grad.getMinimum()), cost(theta));
+    ASSERT_LT(cost.cost(grad.getMinimum()), cost.cost(theta));
 }

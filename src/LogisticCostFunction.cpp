@@ -36,7 +36,7 @@ viennacl::vector<Scalar> LogisticCostFunction<Scalar>::h_theta(const viennacl::v
 }
 
 template<typename Scalar>
-viennacl::scalar<Scalar> LogisticCostFunction<Scalar>::operator()(const viennacl::vector<Scalar> &theta) const {
+viennacl::scalar<Scalar> LogisticCostFunction<Scalar>::cost(const viennacl::vector<Scalar> &theta) const {
     // -y'*log(h_theta) - (1-y)'*log(1-h_theta)
     assert(theta.size() == X().size2());
 

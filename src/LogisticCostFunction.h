@@ -21,7 +21,7 @@ public:
 
     virtual viennacl::vector<Scalar> h_theta(const viennacl::vector<Scalar> &theta) const override;
 
-    virtual viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const override;
+    virtual viennacl::scalar<Scalar> cost(const viennacl::vector<Scalar> &theta) const override;
 
     virtual viennacl::vector<Scalar> gradient(const viennacl::vector<Scalar> &theta) const override;
 

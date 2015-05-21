@@ -34,7 +34,6 @@ YMMV, packages to install depend on present GPU:
   * add predict() function
   * add function to determine training accuracy
 * use smart pointers again (in gradient descent)
-* phase out operator() in cost functions
 * logistic regression
   * minimization - is there a better way than gradient descent? does GD always give so bad results in nontrivial systems?
   * training accuracy

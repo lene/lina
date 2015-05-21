@@ -55,20 +55,20 @@ TEST_F(CostFunctionTest, CostFunctionInitializes) {
 
 TEST_F(CostFunctionTest, CostFunctionRuns) {
     LinearCostFunction<float> cost(X_, y_);
-    cost(theta_);
+    cost.cost(theta_);
 }
 
 TEST_F(CostFunctionTest, CostFunctionEvaluates) {
     LinearCostFunction<float> cost(X_, y_);
-    ASSERT_FLOAT_EQ(1.f/6.f, cost(theta_));
+    ASSERT_FLOAT_EQ(1.f/6.f, cost.cost(theta_));
 }
 
 TEST_F(CostFunctionTest, CostFunctionIdealTheta) {
     LinearCostFunction<float> cost(X_, y_);
-    ASSERT_EQ(0.f, cost(Utilities::vectorFixture("2 0 1")));
+    ASSERT_EQ(0.f, cost.cost(Utilities::vectorFixture("2 0 1")));
 }
 
 TEST_F(CostFunctionTest, CostFunctionBadTheta) {
     LinearCostFunction<float> cost(X_, y_);
-    ASSERT_LT(cost(theta_), cost(Utilities::vectorFixture("2 0 10")));
+    ASSERT_LT(cost.cost(theta_), cost.cost(Utilities::vectorFixture("2 0 10")));
 }

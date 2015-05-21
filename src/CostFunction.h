@@ -19,7 +19,7 @@ public:
     );
 
     virtual viennacl::vector<Scalar> h_theta(const viennacl::vector<Scalar> &theta) const = 0;
-    virtual viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const = 0;
+    virtual viennacl::scalar<Scalar> cost(const viennacl::vector<Scalar> &theta) const = 0;
     virtual viennacl::vector<Scalar> gradient(const viennacl::vector<Scalar> &theta) const = 0;
 
     viennacl::vector<Scalar> deviation(const viennacl::vector<Scalar> &theta) const;

@@ -38,7 +38,7 @@ LinearCostFunction<Scalar>::h_theta(const viennacl::vector<Scalar> &theta) const
  */
 template <typename Scalar>
 viennacl::scalar<Scalar>
-LinearCostFunction<Scalar>::operator()(const viennacl::vector<Scalar> &theta) const {
+LinearCostFunction<Scalar>::cost(const viennacl::vector<Scalar> &theta) const {
     viennacl::vector<Scalar> d = deviation(theta);
     return viennacl::linalg::inner_prod(d, d) / Scalar(2*y().size());
 }

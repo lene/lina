@@ -76,7 +76,7 @@ TEST_F(LogisticCostFunctionTest, GetsCreated) {
 
 TEST_F(LogisticCostFunctionTest, Runs) {
     auto cost = Utilities::logisticCostFunctionFixture(X_, y_);
-    cost(Utilities::vectorFixture("2 0 0"));
+    cost.cost(Utilities::vectorFixture("2 0 0"));
 }
 
 TEST_F(LogisticCostFunctionTest, ReadsCourseData) {
@@ -102,11 +102,11 @@ TEST_F(LogisticCostFunctionTest, SimpleData) {
     ASSERT_FLOAT_EQ(sigmoid(1), cost.h_theta(Utilities::vectorFixture("1 1"))(0));
     ASSERT_FLOAT_EQ(
             -log(sigmoid(0)),
-            cost(Utilities::vectorFixture("1 0"))
+            cost.cost(Utilities::vectorFixture("1 0"))
     );
     ASSERT_FLOAT_EQ(
             -log(sigmoid(1)),
-            cost(Utilities::vectorFixture("1 1"))
+            cost.cost(Utilities::vectorFixture("1 1"))
     );
 }
 
@@ -116,17 +116,17 @@ TEST_F(LogisticCostFunctionTest, SimpleData2) {
     ASSERT_FLOAT_EQ(sigmoid(1), cost.h_theta(Utilities::vectorFixture("1 1"))(0));
     ASSERT_FLOAT_EQ(
             -log(1-sigmoid(0)),
-            cost(Utilities::vectorFixture("1 0"))
+            cost.cost(Utilities::vectorFixture("1 0"))
     );
     ASSERT_FLOAT_EQ(
             -log(1-sigmoid(1)),
-            cost(Utilities::vectorFixture("1 1"))
+            cost.cost(Utilities::vectorFixture("1 1"))
     );
 }
 
 TEST_F(LogisticCostFunctionTest, EvaluatesCourseData) {
     auto cost = Utilities::logisticCostFunctionFixture(X_from_course_, y_from_course_);
-    ASSERT_FLOAT_EQ(0.693147, cost(Utilities::vectorFixture("2 0 0")));
+    ASSERT_FLOAT_EQ(0.693147, cost.cost(Utilities::vectorFixture("2 0 0")));
 }
 
 TEST_F(LogisticCostFunctionTest, GradientCourseData) {
@@ -141,7 +141,7 @@ TEST_F(LogisticCostFunctionTest, GradientCourseData) {
 }
 
 void debugOptimization(const GradientDescent<float> &grad, const CostFunction<float> &cost) {
-    std::cout << "theta min: " << grad.getMinimum() << " cost: " << cost(grad.getMinimum())
+    std::cout << "theta min: " << grad.getMinimum() << " cost: " << cost.cost(grad.getMinimum())
               << " iterations: " << grad.getHistory().size() << ": "<< std::endl;
     for (int i = 0; i < std::min(int(grad.getHistory().size()), 10); ++i) std::cout << grad.getHistory()[i].first << ": " << grad.getHistory()[i].second << std::endl;
     std::cout << "   ..." << std::endl;
@@ -166,12 +166,12 @@ TEST_F(LogisticCostFunctionTest, DISABLED_GradientDescentUnnormalized) {
     std::cout << "********** UNNORMALIZED **********" << std::endl;
 //    debugOptimization(grad, cost);
     auto probability = sigmoid(viennacl::linalg::inner_prod(grad.getMinimum(), Utilities::vectorFixture("3 1 45 85")));
-    std::cout << "theta min: " << grad.getMinimum() << " cost: " << cost(grad.getMinimum()) << " probability: " << probability << std::endl;
+    std::cout << "theta min: " << grad.getMinimum() << " cost: " << cost.cost(grad.getMinimum()) << " probability: " << probability << std::endl;
 
     ASSERT_NEAR(-25.16, grad.getMinimum()(0), 0.01);
     ASSERT_NEAR(  0.20, grad.getMinimum()(1), 0.01);
     ASSERT_NEAR(  0.20, grad.getMinimum()(2), 0.01);
-    ASSERT_NEAR(  0.20, cost(grad.getMinimum()), 0.01);
+    ASSERT_NEAR(  0.20, cost.cost(grad.getMinimum()), 0.01);
 
 }
 
@@ -213,7 +213,7 @@ TEST_F(LogisticCostFunctionTest, GradientDescentSimple1) {
     grad.optimize(Utilities::vectorFixture("1 0"));
     // optimal theta should be minus infinity, but due to the flat function let's say it's < -10.
     ASSERT_LT(grad.getMinimum()(0), -10);
-    ASSERT_NEAR(cost(grad.getMinimum()), 0, 1e-6);
+    ASSERT_NEAR(cost.cost(grad.getMinimum()), 0, 1e-6);
 }
 
 TEST_F(LogisticCostFunctionTest, GradientDescentSimple2) {
@@ -222,7 +222,7 @@ TEST_F(LogisticCostFunctionTest, GradientDescentSimple2) {
     grad.optimize(Utilities::vectorFixture("1 0"));
     // optimal theta should be infinity, but due to the flat function let's say it's > 10.
     ASSERT_GT(grad.getMinimum()(0), 10);
-    ASSERT_NEAR(cost(grad.getMinimum()), 0, 1e-6);
+    ASSERT_NEAR(cost.cost(grad.getMinimum()), 0, 1e-6);
 }
 
 TEST_F(LogisticCostFunctionTest, GradientDescentSimple3) {

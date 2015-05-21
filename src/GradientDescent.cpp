@@ -49,7 +49,7 @@ void GradientDescent<Scalar>::adjustLearningRate() {
 
 template <typename Scalar>
 void GradientDescent<Scalar>::updateHistory() {
-    history_.push_back(std::make_pair(theta_, func_->operator()(theta_)));
+    history_.push_back(std::make_pair(theta_, func_->cost(theta_)));
 }
 
 /**
