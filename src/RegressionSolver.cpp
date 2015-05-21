@@ -9,15 +9,13 @@ template class RegressionSolver<double>;
 
 #include "FeatureNormalize.h"
 #include "FileReader.h"
-#include "LinearCostFunction.h"
-#include "GradientDescent.h"
 
 template <typename Scalar, typename Function>
 RegressionSolver<Scalar, Function>::RegressionSolver(const Matrix &X, const Vector &y):
         X_(X), y_(y), Xnorm_(X.size1(), X.size2()), Xbias_(X.size1(), X.size2()+1) {
     calculateNormalizedMatrix();
     calculateBiasedMatrix();
-    cost_ = std::make_shared<LinearCostFunction<Scalar>>(Xbias_, y_);
+    cost_ = std::make_shared<Function>(Xbias_, y_);
     grad_ = std::make_shared<GradientDescent<Scalar>>(*cost_);
 
 }
