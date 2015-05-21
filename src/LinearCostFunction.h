@@ -2,17 +2,18 @@
 // Created by lene on 04.05.15.
 //
 
-#ifndef LINA_COSTFUNCTION_H
-#define LINA_COSTFUNCTION_H
+#ifndef LINA_LINEARCOSTFUNCTION_H
+#define LINA_LINEARCOSTFUNCTION_H
 
 #include "MatrixPrinter.h"
 #include "VectorPrinter.h"
+#include "CostFunction.h"
 
 #include <viennacl/vector.hpp>
 #include <typeinfo>
 
 template<typename Scalar>
-class LinearCostFunction {
+class LinearCostFunction: public CostFunction<Scalar> {
 
 public:
 
@@ -26,7 +27,7 @@ public:
     virtual viennacl::scalar<Scalar> operator()(const viennacl::vector<Scalar> &theta) const;
     virtual viennacl::vector<Scalar> gradient(const viennacl::vector<Scalar> &theta) const;
 
-    const viennacl::matrix<Scalar> &X() { return X_; }
+    const viennacl::matrix<Scalar> &X() { return CostFunction<Scalar>::X_; }
 
     friend std::ostream& operator<<(std::ostream& os, const LinearCostFunction<Scalar>& cost) {
         os
@@ -37,9 +38,6 @@ public:
         return os;
     }
 
-protected:
-    const viennacl::matrix<Scalar> &X_;
-    const viennacl::vector<Scalar> &y_;
 };
 
 #endif //LINA_COSTFUNCTION_H

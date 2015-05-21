@@ -20,8 +20,7 @@
 template <typename Scalar>
 LinearCostFunction<Scalar>::LinearCostFunction(
         const viennacl::matrix<Scalar> &X,
-        const viennacl::vector<Scalar> &y): X_(X), y_(y) {
-    assert(y_.size() == X_.size1());
+        const viennacl::vector<Scalar> &y): CostFunction<Scalar>(X, y) {
 }
 
 /**
@@ -35,8 +34,8 @@ LinearCostFunction<Scalar>::h_theta(const viennacl::vector<Scalar> &theta) const
 #   if 0
         std::cout << X_ << theta << std::endl;
 #   endif
-    assert(theta.size() == X_.size2());
-    return viennacl::linalg::prod(X_, theta);
+    assert(theta.size() == CostFunction<Scalar>::X_.size2());
+    return viennacl::linalg::prod(CostFunction<Scalar>::X_, theta);
 }
 
 /**
@@ -46,7 +45,7 @@ LinearCostFunction<Scalar>::h_theta(const viennacl::vector<Scalar> &theta) const
 template <typename Scalar>
 viennacl::vector<Scalar>
 LinearCostFunction<Scalar>::deviation(const viennacl::vector<Scalar> &theta) const {
-    return h_theta(theta) - y_;
+    return h_theta(theta) - CostFunction<Scalar>::y_;
 }
 
 /**
@@ -60,7 +59,7 @@ LinearCostFunction<Scalar>::operator()(const viennacl::vector<Scalar> &theta) co
 #   ifdef DEBUG_LOGISTIC_REGRESSION
     std::cout << "COST(" << theta << ")" << *this << std::endl;
 #   endif
-    return viennacl::linalg::inner_prod(d, d) / Scalar(2*y_.size());
+    return viennacl::linalg::inner_prod(d, d) / Scalar(2*CostFunction<Scalar>::y_.size());
 }
 
 /**
@@ -71,7 +70,7 @@ LinearCostFunction<Scalar>::operator()(const viennacl::vector<Scalar> &theta) co
 template <typename Scalar>
 viennacl::vector<Scalar>
 LinearCostFunction<Scalar>::gradient(const viennacl::vector<Scalar> &theta) const {
-    return viennacl::linalg::prod(trans(X_), deviation(theta)) / Scalar(y_.size());
+    return viennacl::linalg::prod(trans(CostFunction<Scalar>::X_), deviation(theta)) / Scalar(CostFunction<Scalar>::y_.size());
 }
 
 #endif
