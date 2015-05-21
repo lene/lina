@@ -12,8 +12,8 @@ template class RegressionSolver<double>;
 #include "LinearCostFunction.h"
 #include "GradientDescent.h"
 
-template <typename Scalar>
-RegressionSolver<Scalar>::RegressionSolver(const Matrix &X, const Vector &y):
+template <typename Scalar, typename Function>
+RegressionSolver<Scalar, Function>::RegressionSolver(const Matrix &X, const Vector &y):
         X_(X), y_(y), Xnorm_(X.size1(), X.size2()), Xbias_(X.size1(), X.size2()+1) {
     calculateNormalizedMatrix();
     calculateBiasedMatrix();
@@ -22,29 +22,29 @@ RegressionSolver<Scalar>::RegressionSolver(const Matrix &X, const Vector &y):
 
 }
 
-template <typename Scalar>
-bool RegressionSolver<Scalar>::optimize(const Vector &theta) {
+template <typename Scalar, typename Function>
+bool RegressionSolver<Scalar, Function>::optimize(const Vector &theta) {
     return grad_->optimize(theta);
 }
 
-template <typename Scalar>
-viennacl::scalar<Scalar> RegressionSolver<Scalar>::operator()(const viennacl::vector<Scalar> &theta) const {
+template <typename Scalar, typename Function>
+viennacl::scalar<Scalar> RegressionSolver<Scalar, Function>::operator()(const viennacl::vector<Scalar> &theta) const {
     return cost_->cost(theta);
 }
 
-template <typename Scalar>
-typename RegressionSolver<Scalar>::Vector RegressionSolver<Scalar>::minTheta() {
+template <typename Scalar, typename Function>
+typename RegressionSolver<Scalar, Function>::Vector RegressionSolver<Scalar, Function>::minTheta() {
     return grad_->getMinimum();
 }
 
-template <typename Scalar>
-void RegressionSolver<Scalar>::calculateNormalizedMatrix() {
+template <typename Scalar, typename Function>
+void RegressionSolver<Scalar, Function>::calculateNormalizedMatrix() {
     FeatureNormalize<Scalar> normalize(X_);
     auto Xnorm = normalize.normalize();
     copy(Xnorm, Xnorm_);
 }
 
-template <typename Scalar>
-void RegressionSolver<Scalar>::calculateBiasedMatrix() {
+template <typename Scalar, typename Function>
+void RegressionSolver<Scalar, Function>::calculateBiasedMatrix() {
     Xbias_ = FileReader::add_bias_column(Xnorm_);
 }

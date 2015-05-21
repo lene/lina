@@ -12,7 +12,7 @@
 
 #include <memory>
 
-template <typename Scalar>
+template <typename Scalar, typename Function = LinearCostFunction<Scalar>>
 class RegressionSolver {
 
 protected:
