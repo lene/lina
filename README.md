@@ -3,6 +3,9 @@ Linear Algebra library in C++ and OpenCL for machine learning algorithms.
 GPU-accelerated routines for multidimensional optimization, linear regression,
 logistic regression. Later: neural networks. Even later: SVM and recommender systems. 
 
+**This is pretty much dead since Google published the [TensorFlow](http://www.tensorflow.org/) 
+machine learning library which does anything this project can ever hope to do.**
+
 ## Dependencies:
 
 ### Boost uBLAS
